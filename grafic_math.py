@@ -8,7 +8,7 @@ class AirShipTheHeadPerson(pygame.sprite.Sprite):
     def __init__(self, x, y, filename):
         self.image = pygame.image.load(filename).convert()
         self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*2, self.image.get_height()*2))
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*2, self.image.get_height()*2))#a
         self.rect = self.image.get_rect(center=(x, y))
         self.original_image = self.image
         self.original_rect = self.rect.copy()
