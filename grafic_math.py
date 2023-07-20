@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 pygame.init()
 
 sc = pygame.display.set_mode((800, 500))
@@ -25,10 +26,10 @@ while 1:
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.KEYDOWN:
-            print('aa')
-            if event.type == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 airshiplayer.rect.centerx -= 20
-                print('a')
+        if event.type == pygame.MOUSEMOTION:
+            print(math.atan((event.pos[1] - airshiplayer.rect.centery)/(event.pos[0] - airshiplayer.rect.centerx)) * 180/math.pi)
 
     sc.fill((0, 0, 0))
     sc.blit(airshiplayer.image, airshiplayer.rect)
