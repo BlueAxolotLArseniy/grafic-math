@@ -18,9 +18,10 @@ while 1:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 player.rect.centerx -= 20
-
+    
     sc.fill((0, 0, 0))
     player.rotate()
+    player.update()
     sc.blit(player.image, player.rect)
     clock.tick(FPS)
     pygame.display.update()
