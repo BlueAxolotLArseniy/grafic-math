@@ -20,3 +20,6 @@ class Player(pygame.sprite.Sprite):
         angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
         self.image = pygame.transform.rotate(self.original_image, int(angle))
         self.rect = self.image.get_rect(center=(self.x, self.y))
+    
+    def update(self, x, y):
+        pass
