@@ -16,9 +16,11 @@ while 1:
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                exit()
             if event.key == pygame.K_a:
                 player.rect.centerx -= 20
-    
+
     sc.fill((0, 0, 0))
     player.rotate()
     player.update()
