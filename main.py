@@ -2,7 +2,7 @@ import pygame
 import random
 import math
 from player import Player
-from contstants import FPS
+from consts import FPS
 pygame.init()
 
 sc = pygame.display.set_mode((800, 500))

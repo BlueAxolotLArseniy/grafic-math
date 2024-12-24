@@ -1,7 +1,7 @@
 import pygame
 import random
 import math
-from contstants import MOVE_PLAYER_SPEED
+from consts import MOVE_PLAYER_SPEED
 pygame.init()
 
 class Player(pygame.sprite.Sprite):
