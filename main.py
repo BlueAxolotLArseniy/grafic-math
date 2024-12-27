@@ -22,8 +22,7 @@ while 1:
                 player.rect.centerx -= 20
 
     sc.fill((0, 0, 0))
-    player.rotate()
     player.update()
-    sc.blit(player.image, player.rect)
+    player.draw(sc)
     clock.tick(FPS)
     pygame.display.update()
