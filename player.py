@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
             bullet.update()
 
     def draw(self, sc: pygame.Surface):
-        sc.blit(self.image, self.rect)
-
         for bullet in self.bullets:
             bullet.draw(sc)
+
+        sc.blit(self.image, self.rect)
