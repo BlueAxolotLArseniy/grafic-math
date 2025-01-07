@@ -12,6 +12,7 @@ class Bullet(pygame.sprite.Sprite):
         self.__angle = angle
         # self.__speed = speed
         self.image = pygame.image.load('images/ship.png').convert()
+        self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
         self.rect = self.image.get_rect(center=(x, y))
         self.delta_x = int(speed * cos(angle))
