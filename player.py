@@ -67,6 +67,7 @@ class Player(pygame.sprite.Sprite):
             bullet.update()
 
     def draw(self, sc: pygame.Surface):
+
         for bullet in self.bullets:
             bullet.draw(sc)
 
