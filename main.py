@@ -22,7 +22,9 @@ while 1:
                 player.rect.centerx -= 20
 
     sc.fill((0, 0, 0))
+
     player.update()
     player.draw(sc)
+
     clock.tick(FPS)
     pygame.display.update()
