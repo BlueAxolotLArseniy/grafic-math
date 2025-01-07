@@ -17,13 +17,13 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = int(speed * cos(angle))
         self.delta_y = int(speed * sin(angle))
 
-    def _rotate(self, angle):
-        self.image = pygame.transform.rotate(self.original_image, int(radians_to_degrees(-angle)))
-        self.rect = self.image.get_rect(center=(self.rect.x, self.rect.y))
+    def _rotate(self):
+        self.image = pygame.transform.rotate(self.original_image, int(radians_to_degrees(-self.__angle)))
+        self.rect = self.image.get_rect(center=(self.rect.centerx, self.rect.centery))
 
     def update(self):
 
-        self._rotate(self.__angle)
+        self._rotate()
 
         self.rect.centerx += self.delta_x
         self.rect.centery += self.delta_y
