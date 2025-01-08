@@ -1,10 +1,7 @@
 import pygame
-import random
-import math
 from bullet import Bullet
 from common import get_angle_to_mouse, radians_to_degrees
 from consts import BULLET_SPEED, MOVE_PLAYER_SPEED
-pygame.init()
 
 
 class Player(pygame.sprite.Sprite):

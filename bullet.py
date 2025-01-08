@@ -1,8 +1,5 @@
-
 import pygame
-from pygame import Surface
 from math import cos, sin
-
 from common import radians_to_degrees
 
 
@@ -29,5 +26,5 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.centerx += self.delta_x
         self.rect.centery += self.delta_y
 
-    def draw(self, sc: Surface):
+    def draw(self, sc: pygame.Surface):
         sc.blit(self.image, self.rect)

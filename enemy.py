@@ -1,9 +1,6 @@
 import pygame
-import random
-import math
 from common import radians_to_degrees, get_angle_to_player
 from player import Player
-pygame.init()
 
 
 class Enemy(pygame.sprite.Sprite):
