@@ -32,12 +32,12 @@ while 1:  # Main cycle   Главный цикл
 
     # Updates   Обновленияa
     player.update()
-    # enemy.update()
+    enemy.update()
     enemy2.update()
 
     # Draws   Отрисовки
     player.draw(sc)
-    # enemy.draw(sc)
+    enemy.draw(sc)
     enemy2.draw(sc)
 
     #-------------PRINT DEBUG--------------
