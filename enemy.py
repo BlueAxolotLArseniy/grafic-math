@@ -3,7 +3,7 @@ import math
 import common
 import consts
 import player
-import bullet
+from bullet import Bullet
 
 class Enemy(pygame.sprite.Sprite):
 
@@ -32,7 +32,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(self.rect.centerx, self.rect.centery))
 
     def update(self):
-        global bullet
         
         self.time += 1
         
@@ -43,7 +42,7 @@ class Enemy(pygame.sprite.Sprite):
         
         if self.time % 3 == 0:
             
-            bullet = bullet.Bullet(self.__angle, self.rect.centerx, self.rect.centery)
+            bullet = Bullet(self.__angle, self.rect.centerx, self.rect.centery)
             self.player.bullets.append(bullet)
 
     def draw(self, sc: pygame.Surface):
