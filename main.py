@@ -30,6 +30,8 @@ while 1:
 
     player.draw(sc)
     enemy.draw(sc)
+    
+    print('Debug --> Enemy time(ticks): ' + str(enemy.time))
 
     clock.tick(FPS)
     pygame.display.update()

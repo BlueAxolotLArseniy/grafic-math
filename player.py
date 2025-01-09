@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.x_speed = 0
         self.y_speed = 0
         self.__angle = 0
+        self.time = 0
         self.bullets: list[Bullet] = []
 
     def _rotate(self):
@@ -28,6 +29,8 @@ class Player(pygame.sprite.Sprite):
             if event.type == pygame.KEYDOWN:
                 self.last_key = event.key
 
+        self.time += 1
+        
         if keys[pygame.K_w]:
             self.y_speed = -MOVE_PLAYER_SPEED
         elif keys[pygame.K_s]:
@@ -56,9 +59,10 @@ class Player(pygame.sprite.Sprite):
 
         left, middle, right = pygame.mouse.get_pressed()
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        if left:
-            bullet = Bullet(self.__angle, BULLET_SPEED, self.rect.centerx, self.rect.centery)
-            self.bullets.append(bullet)
+        if self.time % 2 == 0:
+            if left:
+                bullet = Bullet(self.__angle, BULLET_SPEED, self.rect.centerx, self.rect.centery)
+                self.bullets.append(bullet)
 
         for bullet in self.bullets:
             bullet.update()

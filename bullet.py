@@ -1,5 +1,5 @@
 import pygame
-from math import cos, sin
+import math
 from common import radians_to_degrees
 
 
@@ -12,8 +12,8 @@ class Bullet(pygame.sprite.Sprite):
         self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
         self.rect = self.image.get_rect(center=(x, y))
-        self.delta_x = int(speed * cos(angle))
-        self.delta_y = int(speed * sin(angle))
+        self.delta_x = int(speed * math.cos(angle))
+        self.delta_y = int(speed * math.sin(angle))
 
     def _rotate(self):
         self.image = pygame.transform.rotate(self.original_image, int(radians_to_degrees(-self.__angle)))
