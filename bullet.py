@@ -4,14 +4,16 @@ import common
 import consts
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, x: int, y: int):
+    def __init__(self, angle: float, center: tuple):
         self.angle = angle
+        
+        self.x, self.y = center
         
         self.image = pygame.image.load('images/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
         
-        self.rect = self.image.get_rect(center=(x, y))
+        self.rect = self.image.get_rect(center=(self.x, self.y))
         
         self.delta_x = int(consts.BULLET_SPEED * math.cos(angle))
         self.delta_y = int(consts.BULLET_SPEED * math.sin(angle))

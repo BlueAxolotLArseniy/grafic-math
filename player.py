@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.bullets: list[Bullet] = []
 
     def _rotate(self):
-        self.__angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
-        self.image = pygame.transform.rotate(self.original_image, int(radians_to_degrees(-self.__angle)))
+        self.angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
+        self.image = pygame.transform.rotate(self.original_image, int(radians_to_degrees(-self.angle)))
         self.rect = self.image.get_rect(center=(self.rect.centerx, self.rect.centery))
 
     def update(self):
@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 2 == 0:
             if left:
-                bullet = Bullet(self.__angle, self.rect.centerx, self.rect.centery)
+                bullet = Bullet(self.angle, self.rect.center)
                 self.bullets.append(bullet)
 
         for bullet in self.bullets:
