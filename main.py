@@ -1,37 +1,45 @@
+# Imports   Импорты
 import pygame
 from player import Player
 from consts import FPS
 from enemy import Enemy
 
-pygame.init()
+pygame.init()  # Init pygame   Инит pygame'a
 
+# Main variables   Главные переменные
 sc = pygame.display.set_mode((800, 500))
-
 player = Player(400, 250)
-
 enemy = Enemy(500, 250, player)
 
-clock = pygame.time.Clock()
+clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
-while 1:
+while 1:  # Main cycle   Главный цикл
     for event in pygame.event.get():
+
+        # Ending a programme on exit   Завершение программы при выходе
         if event.type == pygame.QUIT:
             exit()
+
+        # All conditions with buttons pressed   Все условия с нажатыми кнопками:
         if event.type == pygame.KEYDOWN:
+
+            # Ending a programme on exit   Завершение программы при выходе
             if event.key == pygame.K_ESCAPE:
                 exit()
-            if event.key == pygame.K_a:
-                player.rect.centerx -= 20
 
-    sc.fill((0, 0, 0))
+    sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
+    # Updates   Обновления
     player.update()
     enemy.update()
 
+    # Draws   Отрисовки
     player.draw(sc)
     enemy.draw(sc)
-    
+
+    # The number of ticks from enemy   Количество тиков во враге
     print('Debug --> Enemy time(ticks): ' + str(enemy.time))
 
-    clock.tick(FPS)
-    pygame.display.update()
+    clock.tick(FPS)  # Updates ticks   Обновления тиков
+
+    pygame.display.update()  # Update display   Обновление дисплея

@@ -9,12 +9,14 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('images/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
-        self.rect = self.image.get_rect(center=(x, y))
         self.original_image = self.image
+        
+        self.rect = self.image.get_rect(center=(x, y))
         self.original_rect = self.rect.copy()
+        
         self.x_speed = 0
         self.y_speed = 0
-        self.__angle = 0
+        
         self.time = 0
         self.bullets: list[Bullet] = []
 
@@ -61,7 +63,7 @@ class Player(pygame.sprite.Sprite):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 2 == 0:
             if left:
-                bullet = Bullet(self.__angle, BULLET_SPEED, self.rect.centerx, self.rect.centery)
+                bullet = Bullet(self.__angle, self.rect.centerx, self.rect.centery)
                 self.bullets.append(bullet)
 
         for bullet in self.bullets:
