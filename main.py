@@ -40,11 +40,13 @@ while 1:  # Main cycle   Главный цикл
     enemy.draw(sc)
     enemy2.draw(sc)
 
-    #-------------PRINT DEBUG--------------
+    pygame.draw.rect(sc, (255, 255, 255), player.rect, 2)
+
+    # -------------PRINT DEBUG--------------
     # The number of ticks from enemy   Количество тиков во враге
     print('Debug --> Enemy time(ticks): ' + str(enemy.time))
-    #--------------------------------------
-    
+    # --------------------------------------
+
     clock.tick(FPS)  # Updates ticks   Обновления тиков
 
     pygame.display.update()  # Update display   Обновление дисплея

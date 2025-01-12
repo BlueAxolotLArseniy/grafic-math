@@ -1,8 +1,7 @@
 import pygame
 from bullet import Bullet
 from common import get_angle_to_mouse, radians_to_degrees
-from consts import BULLET_SPEED, MOVE_PLAYER_SPEED
-
+from consts import BULLET_SPEED, MOVE_PLAYER_SPEED, BASE_PLAYER_HEALTH
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -19,6 +18,8 @@ class Player(pygame.sprite.Sprite):
         
         self.time = 0
         self.bullets: list[Bullet] = []
+        
+        self.health = BASE_PLAYER_HEALTH
 
     def _rotate(self):
         self.angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
@@ -63,7 +64,7 @@ class Player(pygame.sprite.Sprite):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 2 == 0:
             if left:
-                bullet = Bullet(self.angle, self.rect.center)
+                bullet = Bullet(self.angle, self.rect.center, False, 1)
                 self.bullets.append(bullet)
 
         for bullet in self.bullets:
@@ -75,3 +76,13 @@ class Player(pygame.sprite.Sprite):
             bullet.draw(sc)
 
         sc.blit(self.image, self.rect)
+
+        #--------------HP--------------
+        pygame.draw.rect(sc, (255, 255, 255), (19, 459, 202, 22), 1)
+        
+        pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
+        
+        for b in self.bullets:
+            if self.rect.colliderect(b.rect):
+                self.health -= 1 * b.koefficient
+        #------------------------------

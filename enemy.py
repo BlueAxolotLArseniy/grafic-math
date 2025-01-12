@@ -42,9 +42,9 @@ class Enemy():
             self.rect.centerx += int(self.speed * math.cos(self.__angle))
             self.rect.centery += int(self.speed * math.sin(self.__angle))
             
-            if self.time % 3 == 0:
+            if self.time % 5 == 0:
                 
-                bullet = Bullet(self.__angle, self.rect.center)
+                bullet = Bullet(self.__angle, self.rect.center, True, 1)
                 self.player.bullets.append(bullet)
 
         def draw(self, sc: pygame.Surface):
@@ -75,6 +75,23 @@ class Enemy():
             self.image = pygame.transform.rotate(self.original_image, int(common.radians_to_degrees(-self.__angle)))
             
             self.rect = self.image.get_rect(center=(self.rect.centerx, self.rect.centery))
+            
+        def get_rotated_topleft(self, image, rect, angle):
+            # Центр прямоугольника
+            center_x, center_y = rect.center
+
+            # Смещение topleft относительно центра
+            offset_x = rect.topleft[0] - center_x
+            offset_y = rect.topleft[1] - center_y
+
+            # Угол в радианах
+            angle_rad = math.radians(angle)
+
+            # Вычисляем новые координаты
+            new_x = center_x + math.cos(angle_rad) * offset_x - math.sin(angle_rad) * offset_y
+            new_y = center_y + math.sin(angle_rad) * offset_x + math.cos(angle_rad) * offset_y
+
+            return (new_x, new_y)
 
         def update(self):
             
@@ -87,7 +104,8 @@ class Enemy():
             
             if self.time % 7 == 0:
                 
-                bullet = Bullet(self.__angle, self.rect.center)
+                # bullet = Bullet(self.__angle, self.get_rotated_topleft(self.image, self.rect, self.__angle))
+                bullet = Bullet(self.__angle, self.rect.center, True, 3)
                 self.player.bullets.append(bullet)
 
         def draw(self, sc: pygame.Surface):

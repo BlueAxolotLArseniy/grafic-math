@@ -25,6 +25,7 @@
         "consts",
         "dtype",
         "KEYDOWN",
+        "koefficient",
         "ndenumerate",
         "pygame",
         "RCTRL",

@@ -4,7 +4,7 @@ import common
 import consts
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, center: tuple):
+    def __init__(self, angle: float, center: tuple, affiliation: bool, koefficient: float):
         self.angle = angle
         
         self.x, self.y = center
@@ -17,6 +17,9 @@ class Bullet(pygame.sprite.Sprite):
         
         self.delta_x = int(consts.BULLET_SPEED * math.cos(angle))
         self.delta_y = int(consts.BULLET_SPEED * math.sin(angle))
+        
+        self.affiliation = affiliation #False - не атакует, True - атакует
+        self.koefficient = koefficient
 
     def _rotate(self):
         self.image = pygame.transform.rotate(self.original_image, int(common.radians_to_degrees(-self.angle)))
