@@ -1,7 +1,7 @@
 import pygame
 from bullet import Bullet
 from common import get_angle_to_mouse, radians_to_degrees
-from consts import BULLET_SPEED, MOVE_PLAYER_SPEED, BASE_PLAYER_HEALTH
+from consts import BULLET_SPEED, MOVE_PLAYER_SPEED, BASE_PLAYER_HEALTH, DEBUG_MODE
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -66,6 +66,14 @@ class Player(pygame.sprite.Sprite):
             if left:
                 bullet = Bullet(self.angle, self.rect.center, False, 1)
                 self.bullets.append(bullet)
+        
+        for b in range(len(self.bullets)-1):
+            if self.bullets[b].rect.centerx > 800 + self.bullets[b].rect.width or self.bullets[b].rect.centerx < 0 - self.bullets[b].rect.width:
+                self.bullets.pop(b)
+                break
+            if self.bullets[b].rect.centery > 500 + self.bullets[b].rect.height or self.bullets[b].rect.centery < 0 - self.bullets[b].rect.height:
+                self.bullets.pop(b)
+                break
 
         for bullet in self.bullets:
             bullet.update()
@@ -77,6 +85,9 @@ class Player(pygame.sprite.Sprite):
 
         sc.blit(self.image, self.rect)
 
+        if DEBUG_MODE:
+            pygame.draw.rect(sc, (255, 255, 255), self.rect, 2)
+        
         #--------------HP--------------
         pygame.draw.rect(sc, (255, 255, 255), (19, 459, 202, 22), 1)
         

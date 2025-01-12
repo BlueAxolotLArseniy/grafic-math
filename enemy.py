@@ -49,6 +49,9 @@ class Enemy():
 
         def draw(self, sc: pygame.Surface):
             sc.blit(self.image, self.rect)
+            
+            if consts.DEBUG_MODE:
+                pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
 
     class WithTwoBarrels(pygame.sprite.Sprite):
 
@@ -110,4 +113,7 @@ class Enemy():
 
         def draw(self, sc: pygame.Surface):
             sc.blit(self.image, self.rect)
+            
+            if consts.DEBUG_MODE:
+                pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
 

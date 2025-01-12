@@ -34,3 +34,6 @@ class Bullet(pygame.sprite.Sprite):
 
     def draw(self, sc: pygame.Surface):
         sc.blit(self.image, self.rect)
+        
+        if consts.DEBUG_MODE:
+            pygame.draw.rect(sc, (0, 255, 0), self.rect, 2)
