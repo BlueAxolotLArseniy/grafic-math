@@ -9,8 +9,8 @@ pygame.init()  # Init pygame   Инит pygame'a
 # Main variables   Главные переменные
 sc = pygame.display.set_mode((800, 500))
 player = Player(400, 250)
-enemy = Enemy.WithOneBarrels(500, 250, player)
-enemy2 = Enemy.WithTwoBarrels(600, 250, player)
+enemy = Enemy(500, 250, player, 'WithOneBarrel')
+enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
