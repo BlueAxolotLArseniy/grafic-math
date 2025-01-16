@@ -1,7 +1,7 @@
 # Imports   Импорты
 import pygame
 from player import Player
-from consts import FPS
+from consts import ENABLE_ENEMIES, FPS
 from enemy import Enemy
 import map
 from cave import Cave
@@ -36,20 +36,23 @@ while 1:  # Main cycle   Главный цикл
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
     global_map.update()
-    
+
     # Updates   Обновленияa
     player.update()
-    enemy.update()
-    enemy2.update()
+
+    if ENABLE_ENEMIES:
+        enemy.update()
+        enemy2.update()
 
     # Draws   Отрисовки
     player.draw(sc)
-    enemy.draw(sc)
-    enemy2.draw(sc)
+
+    if ENABLE_ENEMIES:
+        enemy.draw(sc)
+        enemy2.draw(sc)
+
     cave.draw(sc)
-    
-    
-    
+
     # -------------PRINT DEBUG--------------
     # The number of ticks from enemy   Количество тиков во враге
     print('Debug --> Enemy time(ticks): ' + str(enemy.time))
