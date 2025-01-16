@@ -3,6 +3,7 @@ import pygame
 from player import Player
 from consts import FPS
 from enemy import Enemy
+import map
 
 pygame.init()  # Init pygame   Инит pygame'a
 
@@ -13,6 +14,8 @@ enemy = Enemy(500, 250, player, 'WithOneBarrel')
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
+
+global_map = map.Map((enemy, enemy2))
 
 while 1:  # Main cycle   Главный цикл
     for event in pygame.event.get():
@@ -30,6 +33,8 @@ while 1:  # Main cycle   Главный цикл
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
+    global_map.update()
+    
     # Updates   Обновленияa
     player.update()
     enemy.update()
@@ -39,7 +44,9 @@ while 1:  # Main cycle   Главный цикл
     player.draw(sc)
     enemy.draw(sc)
     enemy2.draw(sc)
-
+    
+    
+    
     # -------------PRINT DEBUG--------------
     # The number of ticks from enemy   Количество тиков во враге
     print('Debug --> Enemy time(ticks): ' + str(enemy.time))

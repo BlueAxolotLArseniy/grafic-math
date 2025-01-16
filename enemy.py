@@ -10,6 +10,9 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, player: player.Player, setting: str):
         setting_type = setting
         
+        self.x_speed = 0
+        self.y_speed = 0
+        
         if setting_type == 'WithOneBarrel':
             self.rate_of_fire = 5
             self.speed = consts.MOVE_ENEMY_WITH_ONE_BARREL_SPEED

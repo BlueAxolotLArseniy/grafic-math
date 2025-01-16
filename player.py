@@ -27,36 +27,36 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(self.rect.centerx, self.rect.centery))
 
     def update(self):
-        keys = pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                self.last_key = event.key
+        # keys = pygame.key.get_pressed()
+        # for event in pygame.event.get():
+        #     if event.type == pygame.KEYDOWN:
+        #         self.last_key = event.key
 
         self.time += 1
         
-        if keys[pygame.K_w]:
-            self.y_speed = -MOVE_PLAYER_SPEED
-        elif keys[pygame.K_s]:
-            self.y_speed = MOVE_PLAYER_SPEED
-        else:
-            # Если клавиша не нажата, замедляем движение
-            self.y_speed *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
+        # if keys[pygame.K_w]:
+        #     self.y_speed = -MOVE_PLAYER_SPEED
+        # elif keys[pygame.K_s]:
+        #     self.y_speed = MOVE_PLAYER_SPEED
+        # else:
+        #     # Если клавиша не нажата, замедляем движение
+        #     self.y_speed *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
 
-        if keys[pygame.K_a]:
-            self.x_speed = -MOVE_PLAYER_SPEED
-        elif keys[pygame.K_d]:
-            self.x_speed = MOVE_PLAYER_SPEED
-        else:
-            self.x_speed *= 0.9  # Замедление по оси X
+        # if keys[pygame.K_a]:
+        #     self.x_speed = -MOVE_PLAYER_SPEED
+        # elif keys[pygame.K_d]:
+        #     self.x_speed = MOVE_PLAYER_SPEED
+        # else:
+        #     self.x_speed *= 0.9  # Замедление по оси X
 
-        self.rect.centerx = int(self.rect.centerx + self.x_speed)
-        self.rect.centery = int(self.rect.centery + self.y_speed)
+        # self.rect.centerx = int(self.rect.centerx + self.x_speed)
+        # self.rect.centery = int(self.rect.centery + self.y_speed)
 
-        # Останавливаем игрока, если скорость становится очень маленькой
-        if abs(self.x_speed) < 0.1:
-            self.x_speed = 0
-        if abs(self.y_speed) < 0.1:
-            self.y_speed = 0
+        # # Останавливаем игрока, если скорость становится очень маленькой
+        # if abs(self.x_speed) < 0.1:
+        #     self.x_speed = 0
+        # if abs(self.y_speed) < 0.1:
+        #     self.y_speed = 0
 
         self._rotate()
 
