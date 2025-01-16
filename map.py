@@ -1,18 +1,19 @@
 import pygame
 import consts
 
+
 class Map():
     def __init__(self, objs: tuple):
         self.objs = objs
-        
+
     def update(self):
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 self.last_key = event.key
-                
+
         for obj in self.objs:
-            
+
             if keys[pygame.K_s]:
                 obj.y_speed = -consts.MOVE_PLAYER_SPEED
             elif keys[pygame.K_w]:
