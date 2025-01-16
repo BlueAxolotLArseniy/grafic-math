@@ -4,6 +4,7 @@ from player import Player
 from consts import FPS
 from enemy import Enemy
 import map
+from cave import Cave
 
 pygame.init()  # Init pygame   Инит pygame'a
 
@@ -12,10 +13,11 @@ sc = pygame.display.set_mode((800, 500))
 player = Player(400, 250)
 enemy = Enemy(500, 250, player, 'WithOneBarrel')
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
+cave = Cave(400, 350)
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
-global_map = map.Map((enemy, enemy2))
+global_map = map.Map((enemy, enemy2, cave))
 
 while 1:  # Main cycle   Главный цикл
     for event in pygame.event.get():
@@ -37,13 +39,14 @@ while 1:  # Main cycle   Главный цикл
     
     # Updates   Обновленияa
     player.update()
-    enemy.update()
-    enemy2.update()
+    # enemy.update()
+    # enemy2.update()
 
     # Draws   Отрисовки
     player.draw(sc)
-    enemy.draw(sc)
-    enemy2.draw(sc)
+    # enemy.draw(sc)
+    # enemy2.draw(sc)
+    cave.draw(sc)
     
     
     

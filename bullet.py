@@ -18,7 +18,7 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = int(consts.BULLET_SPEED * math.cos(angle))
         self.delta_y = int(consts.BULLET_SPEED * math.sin(angle))
         
-        self.affiliation = affiliation #False - не атакует, True - атакует
+        self.affiliation = affiliation #False - не атакует, True - атакует игрока
         self.koefficient = koefficient
 
     def _rotate(self):

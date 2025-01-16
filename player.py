@@ -94,6 +94,6 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
         
         for b in self.bullets:
-            if self.rect.colliderect(b.rect):
+            if self.rect.colliderect(b.rect) and b.affiliation != False:
                 self.health -= 1 * b.koefficient
         #------------------------------
