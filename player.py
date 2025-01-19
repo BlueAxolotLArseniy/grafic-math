@@ -26,7 +26,7 @@ class Player():
         self.angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.angle)
 
-    def update(self):
+    def update(self, kx, ky):
         self.time += 1
         self._rotate()
 
@@ -46,7 +46,7 @@ class Player():
                 break
 
         for bullet in self.bullets:
-            bullet.update()
+            bullet.update(kx, ky)
 
         for b in self.bullets:
             if self.rect.colliderect(b.rect) and b.affiliation != False:

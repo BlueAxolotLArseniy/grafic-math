@@ -3,7 +3,8 @@ import pygame
 from player import Player
 from consts import ENABLE_ENEMIES, FPS
 from enemy import Enemy
-import map
+# import map
+from camera import Camera
 from cave import Cave
 
 pygame.init()  # Init pygame   Инит pygame'a
@@ -17,7 +18,9 @@ cave = Cave(400, 350)
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
-global_map = map.Map((enemy, enemy2, cave))
+camera = Camera()
+
+# global_map = map.Map((enemy, enemy2, cave))
 
 while 1:  # Main cycle   Главный цикл
     for event in pygame.event.get():
@@ -35,14 +38,16 @@ while 1:  # Main cycle   Главный цикл
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
-    global_map.update()
+    # global_map.update()
 
     # Updates   Обновленияa
-    player.update()
+    camera.update()
+    player.update(camera.kx, camera.ky)
+    cave.update(camera.kx, camera.ky)   
 
     if ENABLE_ENEMIES:
-        enemy.update()
-        enemy2.update()
+        enemy.update(camera.kx, camera.ky)
+        enemy2.update(camera.kx, camera.ky)
 
     # Draws   Отрисовки
     player.draw(sc)
@@ -57,6 +62,7 @@ while 1:  # Main cycle   Главный цикл
     # The number of ticks from enemy   Количество тиков во враге
     print('Debug --> Enemy time(ticks): ' + str(enemy.time))
     print('Debug --> Number of bullets: ' + str(len(player.bullets)))
+    print('Debug --> FPS: ' + str(FPS))
     # --------------------------------------
     clock.tick(FPS)  # Updates ticks   Обновления тиков
 

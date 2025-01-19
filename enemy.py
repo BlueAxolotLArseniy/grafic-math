@@ -47,7 +47,7 @@ class Enemy(pygame.sprite.Sprite):
         )
         self.image, self.rect = common.rotate_image(self.original_image, self.rect.center, self.__angle)
 
-    def update(self):
+    def update(self, kx, ky):
 
         self.time += 1
 
@@ -60,6 +60,9 @@ class Enemy(pygame.sprite.Sprite):
 
             bullet = Bullet(self.__angle, self.rect.center, True, 1)
             self.player.bullets.append(bullet)
+        
+        self.rect.x += kx
+        self.rect.y += ky
 
     def draw(self, sc: pygame.Surface):
         sc.blit(self.image, self.rect)
