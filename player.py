@@ -32,7 +32,7 @@ class Player():
 
         left, middle, right = pygame.mouse.get_pressed()
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        if self.time % 2 == 0:
+        if self.time % 4 == 0:
             if left:
                 bullet = Bullet(self.angle, self.rect.center, False, 1)
                 self.bullets.append(bullet)
