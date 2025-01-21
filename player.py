@@ -6,7 +6,7 @@ from consts import BASE_PLAYER_HEALTH, DEBUG_MODE
 
 class Player():
     def __init__(self, x, y):
-        self.image = pygame.image.load('images/ship.png').convert()
+        self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image

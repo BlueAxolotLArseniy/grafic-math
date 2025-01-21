@@ -2,7 +2,7 @@ import pygame
 
 class Cave(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        self.image = pygame.image.load('images/cave.png').convert()
+        self.image = pygame.image.load('images/game_textures/cave.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*15, self.image.get_height()*15))

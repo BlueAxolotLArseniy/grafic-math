@@ -18,13 +18,13 @@ class Enemy(pygame.sprite.Sprite):
             self.rate_of_fire = 10
             self.speed = consts.MOVE_ENEMY_WITH_ONE_BARREL_SPEED
 
-            self.image = pygame.image.load('images/enemy1barrels.png').convert()
+            self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
 
         if setting_type == 'WithTwoBarrels':
             self.rate_of_fire = 14
             self.speed = consts.MOVE_ENEMY_WITH_TWO_BARREL_SPEED
 
-            self.image = pygame.image.load('images/enemy2barrels.png').convert()
+            self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
 
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))

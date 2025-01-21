@@ -10,7 +10,7 @@ class Bullet(pygame.sprite.Sprite):
 
         self.x, self.y = center
 
-        self.image = pygame.image.load('images/ship.png').convert()
+        self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
 

@@ -1,10 +1,11 @@
 # Imports   Импорты
 import pygame
 from player import Player
-from consts import ENABLE_ENEMIES, FPS, PAUSE_MODE
+from consts import DEBUG_MODE, ENABLE_ENEMIES, FPS, PAUSE_MODE
 from enemy import Enemy
 from camera import Camera
 from cave import Cave
+import button
 
 pygame.init()  # Init pygame   Инит pygame'a
 
@@ -14,6 +15,8 @@ player = Player(400, 250)
 enemy = Enemy(500, 250, player, 'WithOneBarrel')
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
 cave = Cave(400, 350)
+
+btn_of_esc = button.Button(1, (300, 300), 'hello')
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
@@ -42,6 +45,7 @@ while 1:  # Main cycle   Главный цикл
     # Updates   Обновления
     
     if PAUSE_MODE == False:
+        btn_of_esc.update()
         camera.update()
         player.update(camera.kx, camera.ky)
         cave.update(camera.kx, camera.ky)   
@@ -52,19 +56,21 @@ while 1:  # Main cycle   Главный цикл
 
     # Draws   Отрисовки
     player.draw(sc)
+    
 
     if ENABLE_ENEMIES:
         enemy.draw(sc)
         enemy2.draw(sc)
 
     cave.draw(sc)
-
-    # -------------PRINT DEBUG--------------
-    # The number of ticks from enemy   Количество тиков во враге
-    print('Debug --> Player time(ticks): ' + str(player.time))
-    print('Debug --> Number of bullets: ' + str(len(player.bullets)))
-    print('Debug --> FPS: ' + str(FPS))
-    # --------------------------------------
+    btn_of_esc.draw(sc)
+    if DEBUG_MODE:
+        # -------------PRINT DEBUG--------------
+        # The number of ticks from enemy   Количество тиков во враге
+        print('Debug --> Player time(ticks): ' + str(player.time))
+        print('Debug --> Number of bullets: ' + str(len(player.bullets)))
+        print('Debug --> FPS: ' + str(FPS))
+        # --------------------------------------
     
     clock.tick(FPS)  # Updates ticks   Обновления тиков
 
