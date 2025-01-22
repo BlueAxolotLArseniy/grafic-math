@@ -28,6 +28,7 @@
         "dtype",
         "KEYDOWN",
         "koefficient",
+        "MOUSEBUTTONDOWN",
         "ndenumerate",
         "pygame",
         "RCTRL",

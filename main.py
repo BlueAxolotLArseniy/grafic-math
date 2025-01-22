@@ -16,13 +16,16 @@ enemy = Enemy(500, 250, player, 'WithOneBarrel')
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
 cave = Cave(400, 350)
 
-btn_of_esc = button.Button(1, (300, 300), 'hello')
+exit_button = button.Button(1, (sc.get_width()/2, sc.get_height()/3), 'Выйти')
+continue_button = button.Button(1, (sc.get_width()/2, (sc.get_height()/3)*2), 'Продолжить')
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
 camera = Camera()
 
 while 1:  # Main cycle   Главный цикл
+    mouse_pos = pygame.mouse.get_pos()
+
     for event in pygame.event.get():
 
         # Ending a programme on exit   Завершение программы при выходе
@@ -35,43 +38,57 @@ while 1:  # Main cycle   Главный цикл
             # Ending a programme on exit   Завершение программы при выходе
             if event.key == pygame.K_F1:
                 exit()
-                
+
             if event.key == pygame.K_ESCAPE:
-                if PAUSE_MODE == False: PAUSE_MODE = True
-                else: PAUSE_MODE = False
+                PAUSE_MODE = not PAUSE_MODE
+
+        if PAUSE_MODE:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if DEBUG_MODE:
+                    print(f"Mouse clicked at position: {mouse_pos}")
+                    print(f"Exit button rect: {exit_button.image_rect}")
+                    print(f"Continue button rect: {continue_button.image_rect}")
+                if exit_button.image_rect.collidepoint(mouse_pos):
+                    exit()
+                if continue_button.image_rect.collidepoint(mouse_pos):
+                    PAUSE_MODE = False
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
     # Updates   Обновления
-    
+
     if PAUSE_MODE == False:
-        btn_of_esc.update()
         camera.update()
         player.update(camera.kx, camera.ky)
-        cave.update(camera.kx, camera.ky)   
+        cave.update(camera.kx, camera.ky)
 
         if ENABLE_ENEMIES:
             enemy.update(camera.kx, camera.ky)
             enemy2.update(camera.kx, camera.ky)
 
-    # Draws   Отрисовки
-    player.draw(sc)
-    
+        # Draws   Отрисовки
+        player.draw(sc)
 
-    if ENABLE_ENEMIES:
-        enemy.draw(sc)
-        enemy2.draw(sc)
+        if ENABLE_ENEMIES:
+            enemy.draw(sc)
+            enemy2.draw(sc)
 
-    cave.draw(sc)
-    btn_of_esc.draw(sc)
-    if DEBUG_MODE:
-        # -------------PRINT DEBUG--------------
-        # The number of ticks from enemy   Количество тиков во враге
-        print('Debug --> Player time(ticks): ' + str(player.time))
-        print('Debug --> Number of bullets: ' + str(len(player.bullets)))
-        print('Debug --> FPS: ' + str(FPS))
-        # --------------------------------------
-    
+        cave.draw(sc)
+
+        if DEBUG_MODE:
+            # The number of ticks from enemy   Количество тиков во враге
+            print('Debug --> Player time(ticks): ' + str(player.time))
+            print('Debug --> Number of bullets: ' + str(len(player.bullets)))
+            print('Debug --> FPS: ' + str(FPS))
+
+    else:
+
+        exit_button.update()
+        continue_button.update()
+
+        exit_button.draw(sc)
+        continue_button.draw(sc)
+
     clock.tick(FPS)  # Updates ticks   Обновления тиков
 
     pygame.display.update()  # Update display   Обновление дисплея
