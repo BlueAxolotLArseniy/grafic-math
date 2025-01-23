@@ -11,7 +11,7 @@ class Button(pygame.sprite.Sprite):
 
         self.surface_pos = self.image_rect.center
 
-        self.font = pygame.font.Font('fonts/Monocraft.otf', 24)
+        self.font = pygame.font.Font('fonts/Monocraft.otf', int(24*size))
         self.sc_text = self.font.render(text, 0, (255, 255, 255))
         self.button_pos = self.sc_text.get_rect(center=(size*300//2, size*70//2))
 

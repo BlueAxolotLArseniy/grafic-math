@@ -16,8 +16,10 @@ enemy = Enemy(500, 250, player, 'WithOneBarrel')
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels')
 cave = Cave(400, 350)
 
-exit_button = button.Button(1, (sc.get_width()/2, sc.get_height()/3), 'Выйти')
-continue_button = button.Button(1, (sc.get_width()/2, (sc.get_height()/3)*2), 'Продолжить')
+blur_sc = pygame.surface.Surface((800, 500))
+
+exit_button = button.Button(0.8, (sc.get_width()/2, sc.get_height()/3), 'Выйти')
+continue_button = button.Button(0.8, (sc.get_width()/2, (sc.get_height()/3)*2), 'Продолжить')
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
@@ -54,6 +56,8 @@ while 1:  # Main cycle   Главный цикл
                     PAUSE_MODE = False
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
+    blur_sc.fill((0, 0, 0))
+    blur_sc.set_alpha(200)
 
     # Updates   Обновления
 
@@ -66,22 +70,24 @@ while 1:  # Main cycle   Главный цикл
             enemy.update(camera.kx, camera.ky)
             enemy2.update(camera.kx, camera.ky)
 
-        # Draws   Отрисовки
-        player.draw(sc)
+    # Draws   Отрисовки
+    player.draw(sc)
 
-        if ENABLE_ENEMIES:
-            enemy.draw(sc)
-            enemy2.draw(sc)
+    if ENABLE_ENEMIES:
+        enemy.draw(sc)
+        enemy2.draw(sc)
 
-        cave.draw(sc)
+    cave.draw(sc)
 
-        if DEBUG_MODE:
-            # The number of ticks from enemy   Количество тиков во враге
-            print('Debug --> Player time(ticks): ' + str(player.time))
-            print('Debug --> Number of bullets: ' + str(len(player.bullets)))
-            print('Debug --> FPS: ' + str(FPS))
+    if DEBUG_MODE:
+        # The number of ticks from enemy   Количество тиков во враге
+        print('Debug --> Player time(ticks): ' + str(player.time))
+        print('Debug --> Number of bullets: ' + str(len(player.bullets)))
+        print('Debug --> FPS: ' + str(FPS))
 
-    else:
+    if PAUSE_MODE:
+        
+        sc.blit(blur_sc, (0, 0))
 
         exit_button.update()
         continue_button.update()
