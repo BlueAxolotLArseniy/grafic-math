@@ -1,11 +1,11 @@
 import pygame
 from bullet import Bullet
 from common import get_angle_to_mouse, radians_to_degrees, rotate_image
-from consts import BASE_PLAYER_HEALTH, DEBUG_MODE
+from consts import BASE_PLAYER_HEALTH
 
 
 class Player():
-    def __init__(self, x, y):
+    def __init__(self, x, y, DM):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
@@ -21,6 +21,8 @@ class Player():
         self.bullets: list[Bullet] = []
 
         self.health = BASE_PLAYER_HEALTH
+        
+        self.DEBUG_MODE = DM
 
     def _rotate(self):
         self.angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
@@ -34,7 +36,7 @@ class Player():
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
             if left:
-                bullet = Bullet(self.angle, self.rect.center, False, 1)
+                bullet = Bullet(self.angle, self.rect.center, False, 1, self.DEBUG_MODE)
                 self.bullets.append(bullet)
 
         for b in range(len(self.bullets)-1):
@@ -59,7 +61,7 @@ class Player():
 
         sc.blit(self.image, self.rect)
 
-        if DEBUG_MODE:
+        if self.DEBUG_MODE:
             pygame.draw.rect(sc, (255, 255, 255), self.rect, 2)
 
         # --------------HP--------------

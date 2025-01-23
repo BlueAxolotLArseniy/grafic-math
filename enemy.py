@@ -8,9 +8,11 @@ from bullet import Bullet
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: int, y: int, player: player.Player, setting: str):
+    def __init__(self, x: int, y: int, player: player.Player, setting: str, DM):
         setting_type = setting
 
+        self.DEBUG_MODE = DM
+        
         self.x_speed = 0
         self.y_speed = 0
 
@@ -58,14 +60,14 @@ class Enemy(pygame.sprite.Sprite):
 
         if self.time % self.rate_of_fire == 0:
 
-            bullet = Bullet(self.__angle, self.rect.center, True, 1)
+            bullet = Bullet(self.__angle, self.rect.center, True, 1, self.DEBUG_MODE)
             self.player.bullets.append(bullet)
-        
+
         self.rect.x += kx
         self.rect.y += ky
 
     def draw(self, sc: pygame.Surface):
         sc.blit(self.image, self.rect)
 
-        if consts.DEBUG_MODE:
+        if self.DEBUG_MODE:
             pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
