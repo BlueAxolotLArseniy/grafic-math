@@ -6,7 +6,6 @@ from enemy import Enemy
 from camera import Camera
 from cave import Cave
 from state import GameState
-from ui.pause_screen import PauseScreen
 
 pygame.init()  # Init pygame   Инит pygame'a
 
@@ -23,7 +22,6 @@ clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
 camera = Camera()
 
-ui_pause = PauseScreen(game_state)
 
 while 1:  # Main cycle   Главный цикл
 
@@ -37,13 +35,14 @@ while 1:  # Main cycle   Главный цикл
         if event.type == pygame.KEYDOWN:
 
             if event.key == pygame.K_ESCAPE:
-                game_state.is_paused = not game_state.is_paused
+                game_state.toggle_pause()
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
     # Updates   Обновления
 
-    ui_pause.update(event)
+    if game_state.active_screen:
+        game_state.active_screen.update(event)
 
     if not game_state.is_paused:
         camera.update()
@@ -62,7 +61,8 @@ while 1:  # Main cycle   Главный цикл
 
     # Draws   Отрисовки
 
-    ui_pause.draw(sc)
+    if game_state.active_screen:
+        game_state.active_screen.draw(sc)
 
     player.draw(sc)
 

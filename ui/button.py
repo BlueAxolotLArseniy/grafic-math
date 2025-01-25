@@ -1,3 +1,4 @@
+from typing import Tuple
 import pygame
 
 
@@ -30,3 +31,6 @@ class Button(pygame.sprite.Sprite):
         )
 
         sc.blit(self.image, self.image_rect)
+
+    def collide(self, mouse_pos: Tuple[int, int]) -> bool:
+        return self.image_rect.collidepoint(mouse_pos)
