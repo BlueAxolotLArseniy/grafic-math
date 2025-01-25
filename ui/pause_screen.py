@@ -13,9 +13,8 @@ if TYPE_CHECKING:
 class PauseScreen(Screen):
 
     def __init__(self, game_state: 'GameState'):
-
+        super().__init__()
         self.game_state = game_state
-
         self.exit_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*2), 'Выйти')
         self.settings_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*1.5), 'Настройки')
         self.continue_button = Button(0.8, (SCREEN_WIDTH/2, SCREEN_HEIGHT/3), 'Продолжить')
@@ -32,6 +31,7 @@ class PauseScreen(Screen):
             self.game_state.active_screen = SettingsScreen(self, self.game_state)
 
     def draw(self, sc: Surface):
+        super().draw(sc)
         self.exit_button.draw(sc)
         self.continue_button.draw(sc)
         self.settings_button.draw(sc)

@@ -61,9 +61,6 @@ while 1:  # Main cycle   Главный цикл
 
     # Draws   Отрисовки
 
-    if game_state.active_screen:
-        game_state.active_screen.draw(sc)
-
     player.draw(sc)
 
     if ENABLE_ENEMIES:
@@ -71,6 +68,9 @@ while 1:  # Main cycle   Главный цикл
         enemy2.draw(sc)
 
     cave.draw(sc)
+
+    if game_state.active_screen:
+        game_state.active_screen.draw(sc)
 
     clock.tick(FPS)  # Updates ticks   Обновления тиков
 

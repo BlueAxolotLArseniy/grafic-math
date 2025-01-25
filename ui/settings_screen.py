@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 class SettingsScreen(Screen):
 
     def __init__(self, parent_screen: Screen, game_state: 'GameState'):
+        super().__init__()
         self.game_state = game_state
         self.parent_screen = parent_screen
         self.debug_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*1.5), 'Режим Отладки')
@@ -26,6 +27,6 @@ class SettingsScreen(Screen):
             self.game_state.active_screen = self.parent_screen
 
     def draw(self, sc: Surface):
-
+        super().draw(sc)
         self.debug_button.draw(sc)
         self.back_button.draw(sc)
