@@ -18,12 +18,15 @@ class Button(pygame.sprite.Sprite):
         self.surface = pygame.Surface((300*size, 70*size))
 
     def update(self):
-        self.surface.fill((0, 0, 0))
+        ...
 
     def draw(self, sc):
+        self.surface.fill((0, 0, 0))
         self.surface.blit(self.sc_text, self.button_pos)
 
-        sc.blit(self.surface, (self.surface_pos[0]-self.image_rect.width /
-                2, self.surface_pos[1]-self.image_rect.height/2))
+        sc.blit(
+            self.surface,
+            (self.surface_pos[0]-self.image_rect.width / 2, self.surface_pos[1]-self.image_rect.height/2)
+        )
 
         sc.blit(self.image, self.image_rect)

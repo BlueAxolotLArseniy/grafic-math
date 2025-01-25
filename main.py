@@ -1,19 +1,19 @@
 # Imports   Импорты
 import pygame
 from player import Player
-from consts import ENABLE_ENEMIES, FPS, PAUSE_MODE, SETTINGS_BUTTON_CLICKED
+from consts import ENABLE_ENEMIES, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from enemy import Enemy
 from camera import Camera
 from cave import Cave
 from state import GameState
-from ui_pause import UI_Pause
+from ui.pause_screen import PauseScreen
 
 pygame.init()  # Init pygame   Инит pygame'a
 
 game_state = GameState()
 
 # Main variables   Главные переменные
-sc = pygame.display.set_mode((800, 500))
+sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player(400, 250, game_state)
 enemy = Enemy(500, 250, player, 'WithOneBarrel', game_state)
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels', game_state)
@@ -23,7 +23,7 @@ clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 
 camera = Camera()
 
-ui_pause = UI_Pause(sc, game_state)
+ui_pause = PauseScreen(game_state)
 
 while 1:  # Main cycle   Главный цикл
 
@@ -36,17 +36,8 @@ while 1:  # Main cycle   Главный цикл
         # All conditions with buttons pressed   Все условия с нажатыми кнопками:
         if event.type == pygame.KEYDOWN:
 
-            # Ending a programme on exit   Завершение программы при выходе
-            if event.key == pygame.K_F1:
-                exit()
-
             if event.key == pygame.K_ESCAPE:
-                if SETTINGS_BUTTON_CLICKED:
-                    SETTINGS_BUTTON_CLICKED = False
-                    game_state.settings_button_clicked = SETTINGS_BUTTON_CLICKED
-                else:
-                    PAUSE_MODE = not PAUSE_MODE
-                    game_state.pause_mode = PAUSE_MODE
+                game_state.is_paused = not game_state.is_paused
 
     sc.fill((0, 0, 0))  # Filling with black colour   Заливка черным цветом
 
@@ -54,7 +45,7 @@ while 1:  # Main cycle   Главный цикл
 
     ui_pause.update(event)
 
-    if not game_state.pause_mode:
+    if not game_state.is_paused:
         camera.update()
         player.update(camera.kx, camera.ky)
         cave.update(camera.kx, camera.ky)
@@ -71,7 +62,7 @@ while 1:  # Main cycle   Главный цикл
 
     # Draws   Отрисовки
 
-    ui_pause.draw()
+    ui_pause.draw(sc)
 
     player.draw(sc)
 
