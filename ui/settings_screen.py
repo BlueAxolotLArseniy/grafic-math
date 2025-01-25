@@ -19,18 +19,10 @@ class SettingsScreen(Screen):
 
     def update(self, event):
 
-        mouse_pos = pygame.mouse.get_pos()
-
-        if not self.game_state.is_paused:
-            return
-
-        if event.type != pygame.MOUSEBUTTONUP:
-            return
-
-        if self.debug_button.collide(mouse_pos):
+        if self.debug_button.is_clicked(event):
             self.game_state.debug_mode = not self.game_state.debug_mode
 
-        if self.back_button.collide(mouse_pos):
+        if self.back_button.is_clicked(event):
             self.game_state.active_screen = self.parent_screen
 
     def draw(self, sc: Surface):

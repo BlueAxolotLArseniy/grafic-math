@@ -18,8 +18,19 @@ class Button(pygame.sprite.Sprite):
 
         self.surface = pygame.Surface((300*size, 70*size))
 
-    def update(self):
-        ...
+        self.clicked = False  # Tracks if the button was clicked
+
+    def is_clicked(self, event):
+        # Check for mouse events
+        # for event in events:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and self.collide(event.pos):  # Left mouse button and collision
+                self.clicked = True  # Mark as clicked
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1 and self.clicked and self.collide(event.pos):
+                self.clicked = False  # Reset click state
+                return True  # Return True to indicate the button was clicked
+        return False
 
     def draw(self, sc):
         self.surface.fill((0, 0, 0))

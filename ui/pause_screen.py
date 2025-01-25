@@ -25,18 +25,13 @@ class PauseScreen(Screen):
         if not self.game_state.is_paused:
             return
 
-        mouse_pos: Tuple[int, int] = pygame.mouse.get_pos()
-
-        if event.type != pygame.MOUSEBUTTONUP:
-            return
-
-        if self.exit_button.collide(mouse_pos):
+        if self.exit_button.is_clicked(event):
             exit()
 
-        if self.continue_button.collide(mouse_pos):
+        if self.continue_button.is_clicked(event):
             self.game_state.is_paused = False
 
-        if self.settings_button.collide(mouse_pos):
+        if self.settings_button.is_clicked(event):
             self.game_state.active_screen = SettingsScreen(self, self.game_state)
 
     def draw(self, sc: Surface):
