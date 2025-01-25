@@ -4,15 +4,16 @@ import common
 import consts
 import player
 from bullet import Bullet
+from state import GameState
 
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: int, y: int, player: player.Player, setting: str, DM):
+    def __init__(self, x: int, y: int, player: player.Player, setting: str, game_state: GameState):
         setting_type = setting
 
-        self.DEBUG_MODE = DM
-        
+        self.game_state = game_state
+
         self.x_speed = 0
         self.y_speed = 0
 
@@ -21,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
             self.speed = consts.MOVE_ENEMY_WITH_ONE_BARREL_SPEED
 
             self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
-            
+
             self.health = consts.BASE_HEALTH * 1.5
 
         if setting_type == 'WithTwoBarrels':
@@ -29,7 +30,7 @@ class Enemy(pygame.sprite.Sprite):
             self.speed = consts.MOVE_ENEMY_WITH_TWO_BARREL_SPEED
 
             self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
-            
+
             self.health = consts.BASE_HEALTH
 
         self.image.set_colorkey((0, 0, 0))
@@ -64,12 +65,12 @@ class Enemy(pygame.sprite.Sprite):
 
             if self.time % self.rate_of_fire == 0:
 
-                bullet = Bullet(self.__angle, self.rect.center, True, 1, self.DEBUG_MODE)
+                bullet = Bullet(self.__angle, self.rect.center, True, 1, self.game_state)
                 self.player.bullets.append(bullet)
 
             self.rect.x += kx
             self.rect.y += ky
-            
+
             for b in self.player.bullets:
                 if self.rect.colliderect(b.rect) and b.affiliation != False:
                     self.health -= 1 * b.koefficient
@@ -78,5 +79,5 @@ class Enemy(pygame.sprite.Sprite):
         if self.health > 0:
             sc.blit(self.image, self.rect)
 
-            if self.DEBUG_MODE:
+            if self.game_state.debug_mode:
                 pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
