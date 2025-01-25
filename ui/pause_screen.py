@@ -25,7 +25,7 @@ class PauseScreen(Screen):
             exit()
 
         if self.continue_button.is_clicked(event):
-            self.game_state.is_paused = False
+            self.game_state.unpause()
 
         if self.settings_button.is_clicked(event):
             self.game_state.active_screen = SettingsScreen(self, self.game_state)

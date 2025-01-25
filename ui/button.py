@@ -2,22 +2,18 @@ from typing import Tuple
 import pygame
 
 
-class Button(pygame.sprite.Sprite):
+class Button:
     def __init__(self, size, pos, text):
+        # Load and scale the button image
         self.image = pygame.image.load('images/settings_textures/button.png').convert()
-        self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*size, self.image.get_height()*size))
+        self.image = pygame.transform.scale(self.image, (int(300 * size), int(70 * size)))
+        self.image.set_colorkey((0, 0, 0))  # Set transparency
+        self.rect = self.image.get_rect(center=pos)
 
-        self.image_rect = self.image.get_rect(center=pos)
-
-        self.surface_pos = self.image_rect.center
-
-        self.font = pygame.font.Font('fonts/Monocraft.otf', int(24*size))
-        self.sc_text = self.font.render(text, 0, (255, 255, 255))
-        self.button_pos = self.sc_text.get_rect(center=(size*300//2, size*70//2))
-
-        self.surface = pygame.Surface((300*size, 70*size))
-
+        # Render the text
+        font = pygame.font.Font('fonts/Monocraft.otf', round(24 * size))  # Use `round` for exact size
+        self.text = font.render(text, False, (255, 255, 255))
+        self.text_rect = self.text.get_rect(center=self.rect.center)  # Center text inside the button
         self.clicked = False  # Tracks if the button was clicked
 
     def is_clicked(self, event):
@@ -32,16 +28,9 @@ class Button(pygame.sprite.Sprite):
                 return True  # Return True to indicate the button was clicked
         return False
 
-    def draw(self, sc):
-        self.surface.fill((0, 0, 0))
-        self.surface.blit(self.sc_text, self.button_pos)
-
-        sc.blit(
-            self.surface,
-            (self.surface_pos[0]-self.image_rect.width / 2, self.surface_pos[1]-self.image_rect.height/2)
-        )
-
-        sc.blit(self.image, self.image_rect)
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)  # Draw button image
+        screen.blit(self.text, self.text_rect)  # Draw text centered
 
     def collide(self, mouse_pos: Tuple[int, int]) -> bool:
-        return self.image_rect.collidepoint(mouse_pos)
+        return self.rect.collidepoint(mouse_pos)
