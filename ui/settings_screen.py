@@ -26,8 +26,6 @@ class SettingsScreen(Screen):
             self.game_state.active_screen = self.parent_screen
 
     def draw(self, sc: Surface):
-        if not self.game_state.is_paused:
-            return
 
         self.debug_button.draw(sc)
         self.back_button.draw(sc)

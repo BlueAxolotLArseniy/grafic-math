@@ -22,9 +22,6 @@ class PauseScreen(Screen):
 
     def update(self, event):
 
-        if not self.game_state.is_paused:
-            return
-
         if self.exit_button.is_clicked(event):
             exit()
 
@@ -35,9 +32,6 @@ class PauseScreen(Screen):
             self.game_state.active_screen = SettingsScreen(self, self.game_state)
 
     def draw(self, sc: Surface):
-        if not self.game_state.is_paused:
-            return
-
         self.exit_button.draw(sc)
         self.continue_button.draw(sc)
         self.settings_button.draw(sc)
