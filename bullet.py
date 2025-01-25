@@ -2,10 +2,11 @@ import pygame
 import math
 import common
 import consts
+from state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, center: tuple, affiliation: bool, koefficient: float, DM):
+    def __init__(self, angle: float, center: tuple, affiliation: bool, koefficient: float, game_state: GameState):
         self.angle = angle
 
         self.x, self.y = center
@@ -22,7 +23,7 @@ class Bullet(pygame.sprite.Sprite):
         self.affiliation = affiliation  # False - не атакует, True - атакует игрока
         self.koefficient = koefficient
         
-        self.DEBUG_MODE = DM
+        self.game_state = game_state
 
     def update(self, kx, ky):
         self.image, self.rect = common.rotate_image(self.original_image, self.rect.center, self.angle)
@@ -35,5 +36,5 @@ class Bullet(pygame.sprite.Sprite):
     def draw(self, sc: pygame.Surface):
         sc.blit(self.image, self.rect)
 
-        if self.DEBUG_MODE:
+        if self.game_state.debug_mode:
             pygame.draw.rect(sc, (0, 255, 0), self.rect, 2)
