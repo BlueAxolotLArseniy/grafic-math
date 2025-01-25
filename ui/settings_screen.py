@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 from pygame import Surface
-import pygame
 from ui.button import Button
 from consts import SCREEN_HEIGHT, SCREEN_WIDTH
 from ui.screen import Screen
