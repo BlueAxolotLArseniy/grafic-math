@@ -1,7 +1,7 @@
 import pygame
 from bullet import Bullet
 from common import get_angle_to_mouse, radians_to_degrees, rotate_image
-from consts import BASE_PLAYER_HEALTH
+from consts import BASE_HEALTH
 
 
 class Player():
@@ -20,7 +20,7 @@ class Player():
         self.time = 0
         self.bullets: list[Bullet] = []
 
-        self.health = BASE_PLAYER_HEALTH
+        self.health = BASE_HEALTH
         
         self.DEBUG_MODE = DM
 
