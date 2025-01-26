@@ -1,4 +1,3 @@
-# Imports   Импорты
 import pygame
 from player import Player
 from consts import ENABLE_ENEMIES, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
@@ -7,7 +6,7 @@ from camera import Camera
 from cave import Cave
 from state import GameState
 
-pygame.init()  # Init pygame   Инит pygame'a
+pygame.init()
 
 game_state = GameState()
 
@@ -16,7 +15,7 @@ sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player(400, 250, game_state)
 enemy = Enemy(500, 250, player, 'WithOneBarrel', game_state)
 enemy2 = Enemy(600, 250, player, 'WithTwoBarrels', game_state)
-cave = Cave(400, 350)
+cave = Cave(400, 350, game_state)
 
 clock = pygame.time.Clock()  # Creating a Clock   Создание Clock
 

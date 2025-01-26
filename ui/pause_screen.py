@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 from pygame import Surface
 from ui.button import Button
-from consts import SCREEN_HEIGHT, SCREEN_WIDTH
+from consts import BUTTON_DOWN_POS, BUTTON_MIDDLE_POS, BUTTON_UP_POS
 from ui.screen import Screen
 from ui.settings_screen import SettingsScreen
 
@@ -14,9 +14,9 @@ class PauseScreen(Screen):
     def __init__(self, game_state: 'GameState'):
         super().__init__()
         self.game_state = game_state
-        self.exit_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*2), 'Выйти')
-        self.settings_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*1.5), 'Настройки')
-        self.continue_button = Button(0.8, (SCREEN_WIDTH/2, SCREEN_HEIGHT/3), 'Продолжить')
+        self.exit_button = Button(0.8, BUTTON_DOWN_POS, 'Выйти')
+        self.settings_button = Button(0.8, BUTTON_MIDDLE_POS, 'Настройки')
+        self.continue_button = Button(0.8, BUTTON_UP_POS, 'Продолжить')
 
     def update(self, event):
 

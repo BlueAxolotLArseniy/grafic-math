@@ -1,12 +1,13 @@
 import pygame
 from bullet import Bullet
-from common import get_angle_to_mouse, radians_to_degrees, rotate_image
+from common import get_angle_to_mouse, rotate_image
 from consts import BASE_HEALTH
 from state import GameState
 
 
 class Player():
     def __init__(self, x, y, game_state: GameState):
+
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
@@ -19,9 +20,11 @@ class Player():
         self.y_speed = 0
 
         self.time = 0
+
         self.bullets: list[Bullet] = []
 
         self.health = BASE_HEALTH
+
         self.game_state = game_state
 
     def _rotate(self):
@@ -54,6 +57,10 @@ class Player():
             if self.rect.colliderect(b.rect) and b.affiliation != False:
                 self.health -= 1 * b.koefficient
 
+    def draw_hp(self, sc):
+        pygame.draw.rect(sc, (255, 255, 255), (19, 459, 202, 22), 1)
+        pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
+
     def draw(self, sc: pygame.Surface):
 
         for bullet in self.bullets:
@@ -64,7 +71,4 @@ class Player():
         if self.game_state.debug_mode:
             pygame.draw.rect(sc, (255, 255, 255), self.rect, 2)
 
-        # --------------HP--------------
-        pygame.draw.rect(sc, (255, 255, 255), (19, 459, 202, 22), 1)
-        pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
-        # ------------------------------
+        self.draw_hp(sc)

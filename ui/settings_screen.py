@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 from pygame import Surface
 from ui.button import Button
-from consts import SCREEN_HEIGHT, SCREEN_WIDTH
+from consts import BUTTON_DOWN_POS, BUTTON_MIDDLE_POS
 from ui.screen import Screen
 
 if TYPE_CHECKING:
@@ -14,8 +14,8 @@ class SettingsScreen(Screen):
         super().__init__()
         self.game_state = game_state
         self.parent_screen = parent_screen
-        self.debug_button = Button(0.8, (SCREEN_WIDTH/2, (SCREEN_HEIGHT/3)*1.5), 'Режим Отладки')
-        self.back_button = Button(0.8, (SCREEN_WIDTH/2, SCREEN_HEIGHT/3), 'Назад')
+        self.debug_button = Button(0.8, BUTTON_MIDDLE_POS, 'Режим Отладки')
+        self.back_button = Button(0.8, BUTTON_DOWN_POS, 'Назад')
 
     def update(self, event):
 

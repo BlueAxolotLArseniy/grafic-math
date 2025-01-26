@@ -20,17 +20,13 @@ class Enemy(pygame.sprite.Sprite):
         if setting_type == 'WithOneBarrel':
             self.rate_of_fire = 10
             self.speed = consts.MOVE_ENEMY_WITH_ONE_BARREL_SPEED
-
             self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
-
             self.health = consts.BASE_HEALTH * 1.5
 
         if setting_type == 'WithTwoBarrels':
             self.rate_of_fire = 14
             self.speed = consts.MOVE_ENEMY_WITH_TWO_BARREL_SPEED
-
             self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
-
             self.health = consts.BASE_HEALTH
 
         self.image.set_colorkey((0, 0, 0))
@@ -52,32 +48,36 @@ class Enemy(pygame.sprite.Sprite):
             self.player.rect.centerx,
             self.player.rect.centery
         )
+
         self.image, self.rect = common.rotate_image(self.original_image, self.rect.center, self.__angle)
 
     def update(self, kx, ky):
-        if self.health > 0:
-            self.time += 1
+        if self.health < 0:
+            return
 
-            self._rotate()
+        self.time += 1
 
-            self.rect.centerx += int(self.speed * math.cos(self.__angle))
-            self.rect.centery += int(self.speed * math.sin(self.__angle))
+        self._rotate()
 
-            if self.time % self.rate_of_fire == 0:
+        self.rect.centerx += int(self.speed * math.cos(self.__angle))
+        self.rect.centery += int(self.speed * math.sin(self.__angle))
 
-                bullet = Bullet(self.__angle, self.rect.center, True, 1, self.game_state)
-                self.player.bullets.append(bullet)
+        if self.time % self.rate_of_fire == 0:
+            bullet = Bullet(self.__angle, self.rect.center, True, 1, self.game_state)
+            self.player.bullets.append(bullet)
 
-            self.rect.x += kx
-            self.rect.y += ky
+        self.rect.x += kx
+        self.rect.y += ky
 
-            for b in self.player.bullets:
-                if self.rect.colliderect(b.rect) and b.affiliation != False:
-                    self.health -= 1 * b.koefficient
+        for b in self.player.bullets:
+            if self.rect.colliderect(b.rect) and b.affiliation != False:
+                self.health -= 1 * b.koefficient
 
     def draw(self, sc: pygame.Surface):
-        if self.health > 0:
-            sc.blit(self.image, self.rect)
+        if self.health < 0:
+            return
 
-            if self.game_state.debug_mode:
-                pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
+        sc.blit(self.image, self.rect)
+
+        if self.game_state.debug_mode:
+            pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
