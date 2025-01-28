@@ -2,14 +2,14 @@ from typing import TYPE_CHECKING
 from pygame import Surface
 from ui.button import Button
 from consts import BUTTON_DOWN_POS, BUTTON_MIDDLE_POS, BUTTON_UP_POS
-from ui.screen import Screen
+from ui.screen import ScreenABC
 from ui.settings_screen import SettingsScreen
 
 if TYPE_CHECKING:
     from state import GameState
 
 
-class PauseScreen(Screen):
+class PauseScreen(ScreenABC):
 
     def __init__(self, game_state: 'GameState'):
         super().__init__()

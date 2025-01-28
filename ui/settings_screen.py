@@ -2,15 +2,15 @@ from typing import TYPE_CHECKING
 from pygame import Surface
 from ui.button import Button
 from consts import BUTTON_DOWN_POS, BUTTON_MIDDLE_POS
-from ui.screen import Screen
+from ui.screen import ScreenABC
 
 if TYPE_CHECKING:
     from state import GameState
 
 
-class SettingsScreen(Screen):
+class SettingsScreen(ScreenABC):
 
-    def __init__(self, parent_screen: Screen, game_state: 'GameState'):
+    def __init__(self, parent_screen: ScreenABC, game_state: 'GameState'):
         super().__init__()
         self.game_state = game_state
         self.parent_screen = parent_screen

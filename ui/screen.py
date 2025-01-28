@@ -3,7 +3,7 @@ from pygame import Surface
 from ui.blur import Blur
 
 
-class Screen(ABC):
+class ScreenABC(ABC):
 
     def __init__(self):
         self.blur = Blur()
