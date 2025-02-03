@@ -18,7 +18,7 @@ class ScreenABC(ABC):
     def update_button_positions(self):
         buttons_count = len(self.buttons)
         for button_num in range(0, buttons_count):
-            button_pos = (SCREEN_WIDTH/2, (SCREEN_HEIGHT/buttons_count) * buttons_count / (button_num+1))
+            button_pos = (SCREEN_WIDTH/2, (SCREEN_HEIGHT/buttons_count/2) + (SCREEN_HEIGHT/buttons_count*button_num))
             self.buttons[button_num].set_position(button_pos)
 
     def update(self, event):
