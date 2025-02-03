@@ -1,4 +1,5 @@
 import pygame
+
 from bullet import Bullet
 from common import get_angle_to_mouse, rotate_image
 from consts import BASE_HEALTH
@@ -7,7 +8,6 @@ from state import GameState
 
 class Player():
     def __init__(self, x, y, game_state: GameState):
-
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
@@ -15,9 +15,6 @@ class Player():
 
         self.rect = self.image.get_rect(center=(x, y))
         self.original_rect = self.rect.copy()
-
-        self.x_speed = 0
-        self.y_speed = 0
 
         self.time = 0
 
@@ -62,7 +59,6 @@ class Player():
         pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
 
     def draw(self, sc: pygame.Surface):
-
         for bullet in self.bullets:
             bullet.draw(sc)
 

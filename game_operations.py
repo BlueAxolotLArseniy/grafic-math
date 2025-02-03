@@ -1,4 +1,7 @@
-import player, consts, pygame
+import player
+import consts
+import pygame
+
 
 class Game:
     def __init__(self, sc, player: player.Player, enemies: list, caves: list, camera, game_state):
@@ -8,7 +11,7 @@ class Game:
         self.caves = caves
         self.camera = camera
         self.game_state = game_state
-        
+
     def events(self, event):
         if event.type == pygame.QUIT:
             exit()
@@ -20,10 +23,10 @@ class Game:
 
     def update(self, event):
         self.sc.fill((0, 0, 0))
-        
+
         if self.game_state.active_screen:
             self.game_state.active_screen.update(event)
-        
+
         if not self.game_state.is_paused:
             self.camera.update()
             self.player.update(self.camera.kx, self.camera.ky)
@@ -38,7 +41,7 @@ class Game:
                 print('Debug --> Player time(ticks): ' + str(self.player.time))
                 print('Debug --> Number of bullets: ' + str(len(self.player.bullets)))
                 print('Debug --> FPS: ' + str(consts.FPS))
-    
+
     def draw(self):
         self.player.draw(self.sc)
 
@@ -51,4 +54,3 @@ class Game:
 
         if self.game_state.active_screen:
             self.game_state.active_screen.draw(self.sc)
-

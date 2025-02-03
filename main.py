@@ -1,4 +1,5 @@
 import pygame
+
 from player import Player
 from consts import ENABLE_ENEMIES, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from enemy import Enemy
@@ -21,13 +22,13 @@ clock = pygame.time.Clock()
 
 camera = Camera()
 
-game_operations = Game(sc, 
-                 player, 
-                 [enemy, enemy2], 
-                 [cave], 
-                 camera, 
-                 game_state
-                 )
+game_operations = Game(sc,
+                       player,
+                       [enemy, enemy2],
+                       [cave],
+                       camera,
+                       game_state
+                       )
 
 while 1:
     for event in pygame.event.get():
@@ -36,6 +37,6 @@ while 1:
 
     game_operations.update(event)
     game_operations.draw()
-    
+
     clock.tick(FPS)
     pygame.display.update()

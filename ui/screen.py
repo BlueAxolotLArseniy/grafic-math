@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from pygame import Surface
 from consts import SCREEN_HEIGHT, SCREEN_WIDTH
 from ui.blur import Blur

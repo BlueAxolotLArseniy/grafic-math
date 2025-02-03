@@ -1,5 +1,6 @@
-from pygame import Surface
 import pygame
+
+from pygame import Surface
 from consts import SCREEN_HEIGHT, SCREEN_WIDTH
 
 

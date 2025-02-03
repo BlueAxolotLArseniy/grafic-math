@@ -1,14 +1,15 @@
 import pygame
 import consts
 
+
 class Camera():
     def __init__(self):
         self.kx = 0
         self.ky = 0
-    
+
     def update(self):
         keys = pygame.key.get_pressed()
-                
+
         if keys[pygame.K_s]:
             self.ky = -consts.MOVE_PLAYER_SPEED
         elif keys[pygame.K_w]:
