@@ -2,7 +2,7 @@ import pygame
 
 from bullet import Bullet
 from common import get_angle_to_mouse, rotate_image
-from consts import BASE_HEALTH
+from consts import BASE_HEALTH, SCREEN_WIDTH, SCREEN_HEIGHT
 from state import GameState
 
 
@@ -10,7 +10,7 @@ class Player():
     def __init__(self, x, y, game_state: GameState):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*10, self.image.get_height()*10))
         self.original_image = self.image
 
         self.rect = self.image.get_rect(center=(x, y))
@@ -40,10 +40,10 @@ class Player():
                 self.bullets.append(bullet)
 
         for b in range(len(self.bullets)-1):
-            if self.bullets[b].rect.centerx > 800 + self.bullets[b].rect.width or self.bullets[b].rect.centerx < 0 - self.bullets[b].rect.width:
+            if self.bullets[b].rect.centerx > SCREEN_WIDTH + self.bullets[b].rect.width or self.bullets[b].rect.centerx < 0 - self.bullets[b].rect.width:
                 self.bullets.pop(b)
                 break
-            if self.bullets[b].rect.centery > 500 + self.bullets[b].rect.height or self.bullets[b].rect.centery < 0 - self.bullets[b].rect.height:
+            if self.bullets[b].rect.centery > SCREEN_HEIGHT + self.bullets[b].rect.height or self.bullets[b].rect.centery < 0 - self.bullets[b].rect.height:
                 self.bullets.pop(b)
                 break
 

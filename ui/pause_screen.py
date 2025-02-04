@@ -13,9 +13,9 @@ class PauseScreen(ScreenABC):
         super().__init__()
         self.game_state = game_state
 
-        self.add_button(Button(0.8, 'Выйти', action=lambda: exit()))
-        self.add_button(Button(0.8, 'Настройки', action=self.open_settings_screen))
-        self.add_button(Button(0.8, 'Продолжить', action=lambda: self.game_state.unpause()))
+        self.add_button(Button(1.6, 'Выйти', action=lambda: exit()))
+        self.add_button(Button(1.6, 'Настройки', action=self.open_settings_screen))
+        self.add_button(Button(1.6, 'Продолжить', action=lambda: self.game_state.unpause()))
 
     def open_settings_screen(self):
         self.game_state.active_screen = SettingsScreen(parent_screen=self, game_state=self.game_state)

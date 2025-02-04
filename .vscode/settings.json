@@ -31,6 +31,7 @@
         "MOUSEBUTTONDOWN",
         "MOUSEBUTTONUP",
         "ndenumerate",
+        "NOFRAME",
         "pygame",
         "RCTRL",
         "SRCALPHA",

@@ -10,7 +10,7 @@ from state import GameState
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: int, y: int, player: player.Player, setting: str, game_state: GameState):
+    def __init__(self, x: int | float, y: int | float, player: player.Player, setting: str, game_state: GameState):
         setting_type = setting
 
         self.game_state = game_state
@@ -28,7 +28,7 @@ class Enemy(pygame.sprite.Sprite):
             self.health = BASE_HEALTH
 
         self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*10, self.image.get_height()*10))
         self.original_image = self.image
 
         self.rect = self.image.get_rect(center=(x, y))

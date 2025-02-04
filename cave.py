@@ -8,7 +8,7 @@ class Cave(pygame.sprite.Sprite):
         self.image = pygame.image.load('images/game_textures/cave.png').convert()
         self.image.set_colorkey((0, 0, 0))
         self.original_image = self.image
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*15, self.image.get_height()*15))
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*30, self.image.get_height()*30))
 
         self.rect = self.image.get_rect(center=(x, y))
 
