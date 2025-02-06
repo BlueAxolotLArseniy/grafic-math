@@ -13,8 +13,8 @@ class SettingsScreen(ScreenABC):
         self.game_state = game_state
         self.parent_screen = parent_screen
 
-        self.add_button(Button(0.8, 'Режим Отладки', action=self.toggle_debug_mode))
-        self.add_button(Button(0.8, 'Назад', action=self.back))
+        self.add_button(Button(1, 'Режим Отладки', action=self.toggle_debug_mode))
+        self.add_button(Button(1, 'Назад', action=self.back))
 
     def toggle_debug_mode(self):
         self.game_state.debug_mode = not self.game_state.debug_mode

@@ -2,7 +2,7 @@ import pygame
 import math
 
 from common import rotate_image
-from consts import BULLET_SPEED
+from consts import BLACK, BULLET_SPEED, GREEN
 from state import GameState
 
 
@@ -11,8 +11,8 @@ class Bullet(pygame.sprite.Sprite):
         self.angle = angle
 
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
-        self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*2, self.image.get_height()*2))
+        self.image.set_colorkey(BLACK)
+        self.image = pygame.transform.scale(self.image, (self.image.get_width(), self.image.get_height()))
         self.original_image = self.image
 
         self.rect = self.image.get_rect(center=center)
@@ -38,4 +38,4 @@ class Bullet(pygame.sprite.Sprite):
         sc.blit(self.image, self.rect)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, (0, 255, 0), self.rect, 2)
+            pygame.draw.rect(sc, GREEN, self.rect, 2)

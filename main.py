@@ -12,7 +12,7 @@ pygame.init()
 
 game_state = GameState()
 
-sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
+sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state)
 enemy = Enemy(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, player, 'WithOneBarrel', game_state)
 enemy2 = Enemy(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, player, 'WithTwoBarrels', game_state)

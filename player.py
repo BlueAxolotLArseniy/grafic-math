@@ -2,15 +2,15 @@ import pygame
 
 from bullet import Bullet
 from common import get_angle_to_mouse, rotate_image
-from consts import BASE_HEALTH, SCREEN_WIDTH, SCREEN_HEIGHT
+from consts import BASE_PLAYER_HEALTH, GREEN, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 from state import GameState
 
 
 class Player():
     def __init__(self, x, y, game_state: GameState):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
-        self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*10, self.image.get_height()*10))
+        self.image.set_colorkey(BLACK)
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image
 
         self.rect = self.image.get_rect(center=(x, y))
@@ -20,7 +20,7 @@ class Player():
 
         self.bullets: list[Bullet] = []
 
-        self.health = BASE_HEALTH
+        self.health = BASE_PLAYER_HEALTH
 
         self.game_state = game_state
 
@@ -55,8 +55,11 @@ class Player():
                 self.health -= 1 * b.koefficient
 
     def draw_hp(self, sc):
-        pygame.draw.rect(sc, (255, 255, 255), (19, 459, 202, 22), 1)
-        pygame.draw.rect(sc, (0, 255, 0), (20, 460, self.health*2, 20))
+        pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-19-22, 202, 22), 1)
+        if self.health >= 75: pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 50: pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 25: pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 0: pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
 
     def draw(self, sc: pygame.Surface):
         for bullet in self.bullets:
@@ -65,6 +68,6 @@ class Player():
         sc.blit(self.image, self.rect)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, (255, 255, 255), self.rect, 2)
+            pygame.draw.rect(sc, WHITE, self.rect, 2)
 
         self.draw_hp(sc)

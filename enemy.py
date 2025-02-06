@@ -3,7 +3,7 @@ import math
 import player
 
 from common import get_angle_to_player, rotate_image
-from consts import MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_HEALTH
+from consts import BLACK, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_ENEMY_HEALTH, RED
 from bullet import Bullet
 from state import GameState
 
@@ -19,16 +19,16 @@ class Enemy(pygame.sprite.Sprite):
             self.rate_of_fire = 10
             self.speed = MOVE_ENEMY_WITH_ONE_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
-            self.health = BASE_HEALTH * 1.5
+            self.health = BASE_ENEMY_HEALTH * 1.5
 
         if setting_type == 'WithTwoBarrels':
             self.rate_of_fire = 14
             self.speed = MOVE_ENEMY_WITH_TWO_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
-            self.health = BASE_HEALTH
+            self.health = BASE_ENEMY_HEALTH
 
-        self.image.set_colorkey((0, 0, 0))
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*10, self.image.get_height()*10))
+        self.image.set_colorkey(BLACK)
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image
 
         self.rect = self.image.get_rect(center=(x, y))
@@ -78,4 +78,4 @@ class Enemy(pygame.sprite.Sprite):
         sc.blit(self.image, self.rect)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, (255, 0, 0), self.rect, 2)
+            pygame.draw.rect(sc, RED, self.rect, 2)
