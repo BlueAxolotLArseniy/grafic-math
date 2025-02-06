@@ -6,6 +6,9 @@ class Camera():
     def __init__(self):
         self.kx = 0
         self.ky = 0
+        
+        self.centerx = 0
+        self.centery = 0
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -30,3 +33,6 @@ class Camera():
             self.kx = 0
         if abs(self.ky) < 0.1:
             self.ky = 0
+            
+        self.centerx += -(self.kx)
+        self.centery += self.ky

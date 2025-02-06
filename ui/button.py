@@ -2,17 +2,19 @@ import pygame
 
 from typing import Tuple
 
+from consts import BLACK, WHITE
+
 
 class Button:
     def __init__(self, size: float, text: str, action):
         # Load and scale the button image
         self.image = pygame.image.load('images/settings_textures/button.png').convert()
         self.image = pygame.transform.scale(self.image, (int(300 * size), int(70 * size)))
-        self.image.set_colorkey((0, 0, 0))  # Set transparency
+        self.image.set_colorkey(BLACK)  # Set transparency
 
         # Render the text
         font = pygame.font.Font('fonts/Monocraft.otf', round(24 * size))  # Use `round` for exact size
-        self.text = font.render(text, False, (255, 255, 255))
+        self.text = font.render(text, False, WHITE)
 
         self.clicked = False  # Tracks if the button was clicked
 
