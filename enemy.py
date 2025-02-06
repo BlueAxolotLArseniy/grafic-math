@@ -61,14 +61,14 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.centery += int(self.speed * math.sin(self.__angle))
 
         if self.time % self.rate_of_fire == 0:
-            bullet = Bullet(self.__angle, self.rect.center, True, 1, self.game_state)
+            bullet = Bullet(self.__angle, self.rect.center, 'attacks a player', 1, self.game_state)
             self.player.bullets.append(bullet)
 
         self.rect.x += kx
         self.rect.y += ky
 
         for b in self.player.bullets:
-            if self.rect.colliderect(b.rect) and b.affiliation != False:
+            if self.rect.colliderect(b.rect) and b.attack_affiliation == 'not attacks a player':
                 self.health -= 1 * b.koefficient
 
     def draw(self, sc: pygame.Surface):

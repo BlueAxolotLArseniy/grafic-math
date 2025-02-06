@@ -7,7 +7,7 @@ from state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, center: tuple, affiliation: bool, koefficient: float, game_state: GameState):
+    def __init__(self, angle: float, center: tuple, attack_affiliation: str, koefficient: float, game_state: GameState):
         self.angle = angle
 
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
@@ -20,7 +20,7 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = int(BULLET_SPEED * math.cos(angle))
         self.delta_y = int(BULLET_SPEED * math.sin(angle))
 
-        self.affiliation = affiliation  # False - не атакует, True - атакует игрока
+        self.attack_affiliation = attack_affiliation
         self.koefficient = koefficient
 
         self.game_state = game_state

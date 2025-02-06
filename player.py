@@ -36,7 +36,7 @@ class Player():
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
             if left:
-                bullet = Bullet(self.angle, self.rect.center, False, 1, self.game_state)
+                bullet = Bullet(self.angle, self.rect.center, 'not attacks a player', 1, self.game_state)
                 self.bullets.append(bullet)
 
         for b in range(len(self.bullets)-1):
@@ -51,15 +51,19 @@ class Player():
             bullet.update(kx, ky)
 
         for b in self.bullets:
-            if self.rect.colliderect(b.rect) and b.affiliation != False:
+            if self.rect.colliderect(b.rect) and b.attack_affiliation == 'attacks a player':
                 self.health -= 1 * b.koefficient
 
     def draw_hp(self, sc):
         pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-19-22, 202, 22), 1)
-        if self.health >= 75: pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
-        elif self.health >= 50: pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
-        elif self.health >= 25: pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
-        elif self.health >= 0: pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        if self.health >= 75:
+            pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 50:
+            pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 25:
+            pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+        elif self.health >= 0:
+            pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
 
     def draw(self, sc: pygame.Surface):
         for bullet in self.bullets:
