@@ -20,6 +20,9 @@ class Game:
 
             if event.key == pygame.K_ESCAPE:
                 self.game_state.toggle_pause()
+                
+            if event.key == pygame.K_F3:
+                self.game_state.debug_mode = not self.game_state.debug_mode
 
     def update(self, event):
         self.sc.fill((0, 0, 0))

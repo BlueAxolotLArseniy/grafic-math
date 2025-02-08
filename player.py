@@ -4,15 +4,21 @@ from bullet import Bullet
 from common import get_angle_to_mouse, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 from state import GameState
+import ui.death_screen as ds
+
+
+
 
 
 class Player():
-    def __init__(self, x, y, game_state: GameState):
+    def __init__(self, x, y, game_state: GameState, camera):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey(BLACK)
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image
 
+        self.camera = camera
+        
         self.rect = self.image.get_rect(center=(x, y))
         self.original_rect = self.rect.copy()
 
@@ -23,7 +29,7 @@ class Player():
         self.health = BASE_PLAYER_HEALTH
 
         self.game_state = game_state
-
+        
     def _rotate(self):
         self.angle = get_angle_to_mouse(self.rect.centerx, self.rect.centery)
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.angle)
@@ -53,6 +59,8 @@ class Player():
         for b in self.bullets:
             if self.rect.colliderect(b.rect) and b.attack_affiliation == 'attacks a player':
                 self.health -= 1 * b.koefficient
+            
+        if self.health <= 0: self.game_state.active_screen = ds.DeathScreen(self, self.camera)
 
     def draw_hp(self, sc):
         pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-19-22, 202, 22), 1)

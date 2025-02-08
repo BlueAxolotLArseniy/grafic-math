@@ -1,5 +1,6 @@
 from ui.pause_screen import PauseScreen
 from ui.screen import ScreenABC
+import ui.death_screen as ds
 
 
 class GameState:
@@ -7,7 +8,7 @@ class GameState:
     debug_mode = True
     # todo: make it readonly property
     is_paused = False
-    active_screen: ScreenABC | None = None
+    active_screen: ScreenABC | ds.DeathScreen | None = None
 
     def pause(self):
         self.is_paused = True
