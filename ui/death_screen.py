@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from player_state import PlayerState
 from ui.button import Button
 from ui.screen import ScreenABC
 
@@ -8,19 +9,11 @@ if TYPE_CHECKING:
 
 class DeathScreen(ScreenABC):
 
-    def __init__(self, player, camera):
+    def __init__(self, game_state: 'GameState'):
         super().__init__()
-        
-        self.player = player
-        self.camera = camera
-        
-
+        self.__game_state = game_state
         self.add_button(Button(1, 'Выйти из игры', action=lambda: exit()))
         self.add_button(Button(1, 'Возродиться', action=self.respawn))
-        
+
     def respawn(self):
-        self.player.health = 100
-        self.camera.kx = -self.camera.centerx
-        self.camera.ky = -self.camera.centery
-        
-        
+        self.__game_state.player_state = PlayerState.respawn

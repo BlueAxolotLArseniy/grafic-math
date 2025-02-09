@@ -34,6 +34,7 @@
         "NOFRAME",
         "pygame",
         "RCTRL",
+        "respawn",
         "SRCALPHA",
         "tankmap",
         "topleft"
