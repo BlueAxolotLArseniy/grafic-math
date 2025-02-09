@@ -62,6 +62,7 @@ class Player():
             self.game_state.active_screen = ds.DeathScreen(self.game_state)
 
     def draw_hp(self, sc):
+        # todo: move hp to a separate class.
         pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-19-22, 202, 22), 1)
         if self.health >= 75:
             pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
