@@ -18,11 +18,11 @@ class Game:
         self.caves = caves
         self.camera = camera
         self.game_state = game_state
-        
+
         self.map_center = [0, 0]
-        
+
         self.center_rect = pygame.Rect((consts.SCREEN_WIDTH//2-5, consts.SCREEN_HEIGHT//2-5, 10, 10))
-        
+
         self.font = pygame.font.Font('fonts/Monocraft.otf', round(24))  # Use `round` for exact size
 
     def events(self, event):
@@ -38,11 +38,12 @@ class Game:
                 self.game_state.debug_mode = not self.game_state.debug_mode
 
     def update(self, event):
-        self.sc.fill((0, 0, 0))
-        
+
+        self.__respawn()
+
         print(self.camera.centerx, self.center_rect.centerx)
         print(self.camera.centery, self.center_rect.centery)
-        
+
         if self.game_state.active_screen:
             self.game_state.active_screen.update(event)
 
@@ -55,10 +56,10 @@ class Game:
             if consts.ENABLE_ENEMIES:
                 for enemy in self.enemies:
                     enemy.update(self.camera.kx, self.camera.ky)
-                    
+
             self.center_rect.centerx += self.camera.kx
             self.center_rect.centery += self.camera.ky
-                    
+
             if self.game_state.debug_mode:
                 print('Debug --> Player time(ticks): ' + str(self.player.time))
                 print('Debug --> Number of bullets: ' + str(len(self.player.bullets)))
@@ -73,20 +74,22 @@ class Game:
                                                 False, consts.WHITE)
             self.text_coords_rect = self.text_coords.get_rect(topleft=(20, 50))
 
-    def respawn(self):
+    def __respawn(self):
         if self.game_state.player_state == PlayerState.respawn:
             self.game_state.unpause()
-            
+
             print('RESPAWN')
-            
+
             self.player.health = 100
-            
+
             self.camera.kx = self.camera.centerx - self.center_rect.centerx
             self.camera.ky = self.camera.centery - self.center_rect.centery
-            
+
             self.game_state.player_state = PlayerState.active
 
     def draw(self):
+        self.sc.fill((0, 0, 0))
+
         self.player.draw(self.sc)
 
         if consts.ENABLE_ENEMIES:

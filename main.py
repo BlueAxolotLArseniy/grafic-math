@@ -33,11 +33,9 @@ game_operations = Game(sc,
 
 while 1:
     for event in pygame.event.get():
-
         game_operations.events(event)
 
     game_operations.update(event)
-    game_operations.respawn()
     game_operations.draw()
 
     clock.tick(FPS)
