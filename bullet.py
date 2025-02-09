@@ -1,13 +1,14 @@
 import pygame
 import math
 
+from bullet_affiliation import BulletAffiliation
 from common import rotate_image
 from consts import BLACK, BULLET_SPEED, GREEN
 from state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, center: tuple, attack_affiliation: str, koefficient: float, game_state: GameState):
+    def __init__(self, angle: float, center: tuple, affiliation: BulletAffiliation, koefficient: float, game_state: GameState):
         self.angle = angle
 
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
@@ -20,7 +21,7 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = int(BULLET_SPEED * math.cos(angle))
         self.delta_y = int(BULLET_SPEED * math.sin(angle))
 
-        self.attack_affiliation = attack_affiliation
+        self.affiliation = affiliation
         self.koefficient = koefficient
 
         self.game_state = game_state

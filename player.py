@@ -1,6 +1,7 @@
 import pygame
 
 from bullet import Bullet
+from bullet_affiliation import BulletAffiliation
 from common import get_angle_to_mouse, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 from state import GameState
@@ -39,7 +40,7 @@ class Player():
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
             if left:
-                bullet = Bullet(self.angle, self.rect.center, 'not attacks a player', 1, self.game_state)
+                bullet = Bullet(self.angle, self.rect.center, BulletAffiliation.player, 1, self.game_state)
                 self.bullets.append(bullet)
 
         for b in range(len(self.bullets)-1):
@@ -54,7 +55,7 @@ class Player():
             bullet.update(kx, ky)
 
         for b in self.bullets:
-            if self.rect.colliderect(b.rect) and b.attack_affiliation == 'attacks a player':
+            if self.rect.colliderect(b.rect) and b.affiliation == BulletAffiliation.enemy:
                 self.health -= 1 * b.koefficient
 
         if self.health <= 0:
