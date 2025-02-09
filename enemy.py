@@ -1,6 +1,7 @@
 import pygame
 import math
 from bullet_affiliation import BulletAffiliation
+from enemy_type import EnemyType
 import player
 
 from common import get_angle_to_player, rotate_image
@@ -11,18 +12,17 @@ from state import GameState
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: int | float, y: int | float, player: player.Player, setting: str, game_state: GameState):
-        setting_type = setting
+    def __init__(self, x: int | float, y: int | float, player: player.Player, setting_type: EnemyType, game_state: GameState):
 
         self.game_state = game_state
 
-        if setting_type == 'WithOneBarrel':
+        if setting_type == EnemyType.single_cannon:
             self.rate_of_fire = 10
             self.speed = MOVE_ENEMY_WITH_ONE_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
             self.health = BASE_ENEMY_HEALTH * 1.5
 
-        if setting_type == 'WithTwoBarrels':
+        if setting_type == EnemyType.double_cannon:
             self.rate_of_fire = 14
             self.speed = MOVE_ENEMY_WITH_TWO_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
