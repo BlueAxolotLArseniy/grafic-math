@@ -37,6 +37,7 @@ while 1:
         game_operations.events(event)
 
     game_operations.update(event)
+    game_operations.respawn()
     game_operations.draw()
 
     clock.tick(FPS)

@@ -3,10 +3,9 @@ from ui.pause_screen import PauseScreen
 from ui.screen import ScreenABC
 import ui.death_screen as ds
 
-
 class GameState:
 
-    debug_mode = True
+    debug_mode = False
     # todo: make it readonly property
     is_paused = False
     active_screen: ScreenABC | ds.DeathScreen | None = None
