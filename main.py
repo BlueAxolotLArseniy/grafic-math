@@ -1,5 +1,4 @@
 import pygame
-
 from enemy_type import EnemyType
 from player import Player
 from consts import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
@@ -7,7 +6,6 @@ from enemy import Enemy
 from cave import Cave
 from state import GameState
 from game import Game
-
 from camera import Camera
 
 pygame.init()
@@ -24,20 +22,18 @@ cave = Cave(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state)
 
 clock = pygame.time.Clock()
 
-game_operations = Game(sc,
-                       player,
-                       [enemy, enemy2],
-                       [cave],
-                       camera,
-                       game_state
-                       )
+game = Game(
+    sc=sc,
+    player=player,
+    enemies=[enemy, enemy2],
+    caves=[cave],
+    camera=camera,
+    game_state=game_state
+)
 
 while 1:
-    for event in pygame.event.get():
-        game_operations.events(event)
-
-    game_operations.update(event)
-    game_operations.draw()
+    game.update()
+    game.draw()
 
     clock.tick(FPS)
     pygame.display.update()

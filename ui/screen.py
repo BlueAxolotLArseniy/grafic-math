@@ -1,5 +1,7 @@
 from abc import ABC
 from pygame import Surface
+from pygame.event import Event
+from typing import List
 from consts import SCREEN_HEIGHT, SCREEN_WIDTH
 from ui.blur import Blur
 from ui.button import Button
@@ -21,9 +23,10 @@ class ScreenABC(ABC):
             button_pos = (SCREEN_WIDTH/2, (SCREEN_HEIGHT/buttons_count/2) + (SCREEN_HEIGHT/buttons_count*button_num))
             self.buttons[button_num].set_position(button_pos)
 
-    def update(self, event):
-        for button in self.buttons:
-            button.update(event)
+    def update(self, events: List[Event]):
+        for event in events:
+            for button in self.buttons:
+                button.update(event)
 
     def draw(self, sc: Surface):
         self.blur.draw(sc)

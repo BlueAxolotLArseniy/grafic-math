@@ -2,8 +2,8 @@ from camera import Camera
 import player
 import consts
 import pygame
-from typing import TYPE_CHECKING
-
+from pygame.event import Event
+from typing import TYPE_CHECKING, List
 from player_state import PlayerState
 
 if TYPE_CHECKING:
@@ -25,27 +25,32 @@ class Game:
 
         self.font = pygame.font.Font('fonts/Monocraft.otf', round(24))  # Use `round` for exact size
 
-    def events(self, event):
-        if event.type == pygame.QUIT:
-            exit()
+    def __events(self, events: List[Event]):
 
-        if event.type == pygame.KEYDOWN:
+        for event in events:
+            if event.type == pygame.QUIT:
+                exit()
 
-            if event.key == pygame.K_ESCAPE:
-                self.game_state.toggle_pause()
+            if event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_F3:
-                self.game_state.debug_mode = not self.game_state.debug_mode
+                if event.key == pygame.K_ESCAPE:
+                    self.game_state.toggle_pause()
 
-    def update(self, event):
+                if event.key == pygame.K_F3:
+                    self.game_state.debug_mode = not self.game_state.debug_mode
 
+    def update(self):
+
+        events: List[Event] = pygame.event.get()
+
+        self.__events(events)
         self.__respawn()
 
         print(self.camera.centerx, self.center_rect.centerx)
         print(self.camera.centery, self.center_rect.centery)
 
         if self.game_state.active_screen:
-            self.game_state.active_screen.update(event)
+            self.game_state.active_screen.update(events)
 
         if not self.game_state.is_paused:
             self.camera.update()

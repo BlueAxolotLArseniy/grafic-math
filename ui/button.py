@@ -24,11 +24,11 @@ class Button:
         self.rect = self.image.get_rect(center=pos)
         self.text_rect = self.text.get_rect(center=self.rect.center)  # Center text inside the button
 
-    def update(self, event):
+    def update(self, event: pygame.event.Event):
         if self.is_clicked(event):
             self.action()
 
-    def is_clicked(self, event):
+    def is_clicked(self, event: pygame.event.Event):
         # Check for mouse events
         # for event in events:
         if event.type == pygame.MOUSEBUTTONDOWN:
