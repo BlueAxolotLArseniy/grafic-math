@@ -5,7 +5,7 @@ from consts import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from enemy import Enemy
 from cave import Cave
 from state import GameState
-from game_operations import Game
+from game import Game
 
 from camera import Camera
 
