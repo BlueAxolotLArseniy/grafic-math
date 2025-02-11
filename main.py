@@ -6,16 +6,13 @@ from enemy import Enemy
 from cave import Cave
 from state import GameState
 from game import Game
-from camera import Camera
 
 pygame.init()
 
 game_state = GameState()
 
-camera = Camera()
-
 sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-player = Player(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state, camera)
+player = Player(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state)
 enemy = Enemy(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, player, EnemyType.single_cannon, game_state)
 enemy2 = Enemy(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, player, EnemyType.double_cannon, game_state)
 cave = Cave(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state)
@@ -27,7 +24,6 @@ game = Game(
     player=player,
     enemies=[enemy, enemy2],
     caves=[cave],
-    camera=camera,
     game_state=game_state
 )
 

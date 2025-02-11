@@ -1,5 +1,6 @@
 import pygame
 
+from camera_abc import CameraABC
 from consts import BLACK, WHITE
 from state import GameState
 
@@ -15,12 +16,12 @@ class Cave(pygame.sprite.Sprite):
 
         self.game_state = game_state
 
-    def update(self, kx, ky):
-        self.rect.x += kx
-        self.rect.y += ky
+    # def update(self, kx, ky):
+    #     self.rect.x += kx
+    #     self.rect.y += ky
 
-    def draw(self, sc: pygame.Surface):
-        sc.blit(self.image, self.rect)
+    def draw(self, sc: pygame.Surface, camera: CameraABC):
+        sc.blit(self.image, camera.get_screen_pos(self.rect))
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, WHITE, self.rect, 2)
+            pygame.draw.rect(sc, WHITE, camera.get_screen_pos(self.rect), 2)

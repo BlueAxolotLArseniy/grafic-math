@@ -2,11 +2,11 @@ import pygame
 import consts
 
 
-class Camera():
+class CameraOld():
     def __init__(self):
         self.kx = 0
         self.ky = 0
-        
+
         self.centerx = 0
         self.centery = 0
 
@@ -33,6 +33,6 @@ class Camera():
             self.kx = 0
         if abs(self.ky) < 0.1:
             self.ky = 0
-            
+
         self.centerx += -(self.kx)
         self.centery += self.ky
