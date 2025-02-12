@@ -1,6 +1,7 @@
 import pygame
 import math
 from bullet_affiliation import BulletAffiliation
+from camera_abc import CameraABC
 from enemy_type import EnemyType
 import player
 
@@ -50,7 +51,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.__angle)
 
-    def update(self, kx, ky):
+    def update(self):
         if self.health < 0:
             return
 
@@ -65,18 +66,15 @@ class Enemy(pygame.sprite.Sprite):
             bullet = Bullet(self.__angle, self.rect.center, BulletAffiliation.enemy, 1, self.game_state)
             self.player.bullets.append(bullet)
 
-        self.rect.x += kx
-        self.rect.y += ky
-
         for b in self.player.bullets:
             if self.rect.colliderect(b.rect) and b.affiliation == BulletAffiliation.player:
                 self.health -= 1 * b.koefficient
 
-    def draw(self, sc: pygame.Surface):
+    def draw(self, sc: pygame.Surface, camera: CameraABC):
         if self.health < 0:
             return
 
-        sc.blit(self.image, self.rect)
+        sc.blit(self.image, camera.get_screen_pos(self.rect))
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, RED, self.rect, 2)
+            pygame.draw.rect(sc, RED, (*camera.get_screen_pos(self.rect), self.rect.width, self.rect.height), 2)

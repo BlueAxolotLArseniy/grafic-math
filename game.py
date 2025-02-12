@@ -15,7 +15,7 @@ class Game:
     def __init__(self, sc, player: player.Player, enemies: list, caves: List[Cave], game_state: 'GameState'):
         self.sc = sc
         self.player = player
-        # self.enemies = enemies
+        self.enemies = enemies
         self.caves = caves
         # self.camera = camera
         self.game_state = game_state
@@ -52,15 +52,13 @@ class Game:
 
         if not self.game_state.is_paused:
             self.player.update()
-            # for cave in self.caves:
-            #     cave.update(self.camera.kx, self.camera.ky)
+            for cave in self.caves:
+                cave.update()
 
-            # if consts.ENABLE_ENEMIES:
-            #     for enemy in self.enemies:
-            #         enemy.update(self.camera.kx, self.camera.ky)
+            if consts.ENABLE_ENEMIES:
+                for enemy in self.enemies:
+                    enemy.update()
 
-            # self.center_rect.centerx += self.camera.kx
-            # self.center_rect.centery += self.camera.ky
 
             if self.game_state.debug_mode:
                 print('Debug --> Player time(ticks): ' + str(self.player.time))
@@ -93,9 +91,9 @@ class Game:
 
         self.player.draw(self.sc)
 
-        # if consts.ENABLE_ENEMIES:
-        #     for enemy in self.enemies:
-        #         enemy.draw(self.sc)
+        if consts.ENABLE_ENEMIES:
+            for enemy in self.enemies:
+                enemy.draw(self.sc, self.player)
 
         for cave in self.caves:
             cave.draw(self.sc, self.player)
