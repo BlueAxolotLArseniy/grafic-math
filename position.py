@@ -17,11 +17,6 @@ class Position(tuple):
     def y(self):
         return self[1]
 
-    @property
-    def as_tuple(self):
-        """Returns the Position as a tuple (x, y)."""
-        return self
-
     def __add__(self, other):
         """Adds two Position objects."""
         if isinstance(other, Position):

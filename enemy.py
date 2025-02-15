@@ -40,8 +40,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player = player
         self.__bullets = bullets
 
-        self.__angle = get_angle_to_player(self.rect.centerx, self.rect.centery,
-                                           self.player.rect.centerx, self.player.rect.centery)
+        self.__angle = 0
         self.time = 0
 
     def _rotate(self):
