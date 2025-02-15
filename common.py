@@ -1,5 +1,8 @@
 import math
+from typing import Tuple
 import pygame
+from consts import GREEN
+from position import Position
 
 
 def radians_to_degrees(radians: float):
@@ -21,3 +24,9 @@ def rotate_image(original_image, center, angle):
     image = pygame.transform.rotate(original_image, int(radians_to_degrees(-angle)))
     rect = image.get_rect(center=center)
     return (image, rect)
+
+
+def draw_text(sc: pygame.Surface, text: str, screen_pos: Position, font_size: int = 20, color: Tuple[int, int, int] = GREEN):
+    font = pygame.font.Font(None, font_size)
+    text_render = font.render(text, False, color)
+    sc.blit(text_render, screen_pos)

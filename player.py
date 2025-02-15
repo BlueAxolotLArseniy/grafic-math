@@ -4,9 +4,10 @@ import pygame
 from bullet import Bullet
 from bullet_affiliation import BulletAffiliation
 from camera_abc import CameraABC
-from common import get_angle_to_mouse, rotate_image
+from common import draw_text, get_angle_to_mouse, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 import consts
+from position import Position
 from state import GameState
 import ui.death_screen as ds
 
@@ -111,14 +112,16 @@ class Player(CameraABC):
             bullet.draw(sc, self)
 
         screen_pos = self.get_screen_pos(self.rect)
-        sc.blit(self.image, screen_pos)
+        sc.blit(self.image, tuple(screen_pos))
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, WHITE, (screen_pos[0], screen_pos[1], self.rect.width, self.rect.height), 2)
-
-            font = pygame.font.Font(None, 30)
-            text = font.render(f'x={self.rect.centerx}, y={self.rect.centery}', False, consts.WHITE)
-            sc.blit(text, screen_pos)
+            pygame.draw.rect(sc, WHITE, (screen_pos.x, screen_pos.y, self.rect.width, self.rect.height), 2)
+            # tod, here will be move of the pos.
+            draw_text(
+                sc,
+                f'x={self.rect.centerx}, y={self.rect.centery}',
+                Position(HALF_SCREEN_WIDTH - 40, HALF_SCREEN_HEIGHT + 60)
+            )
 
         self.draw_hp(sc)
 
