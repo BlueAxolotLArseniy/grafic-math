@@ -5,9 +5,10 @@ from camera_abc import CameraABC
 from enemy_type import EnemyType
 import player
 
-from common import get_angle_to_player, rotate_image
-from consts import BLACK, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_ENEMY_HEALTH, RED
+from common import draw_text, get_angle_to_player, rotate_image
+from consts import BLACK, DUMMY_ENEMIES, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_ENEMY_HEALTH, RED
 from bullet import Bullet
+from position import Position
 from state import GameState
 
 
@@ -62,9 +63,10 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.centerx += int(self.speed * math.cos(self.__angle))
         self.rect.centery += int(self.speed * math.sin(self.__angle))
 
-        if self.time % self.rate_of_fire == 0:
-            bullet = Bullet(self.__angle, self.rect.center, BulletAffiliation.enemy, 1, self.game_state)
-            self.player.bullets.append(bullet)
+        if not DUMMY_ENEMIES:
+            if self.time % self.rate_of_fire == 0:
+                bullet = Bullet(self.__angle, self.rect.center, BulletAffiliation.enemy, 1, self.game_state)
+                self.player.bullets.append(bullet)
 
         for b in self.player.bullets:
             if self.rect.colliderect(b.rect) and b.affiliation == BulletAffiliation.player:
@@ -73,8 +75,9 @@ class Enemy(pygame.sprite.Sprite):
     def draw(self, sc: pygame.Surface, camera: CameraABC):
         if self.health < 0:
             return
-
-        sc.blit(self.image, camera.get_screen_pos(self.rect))
+        screen_pos = camera.get_screen_pos(self.rect)
+        sc.blit(self.image, screen_pos)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, RED, (*camera.get_screen_pos(self.rect), self.rect.width, self.rect.height), 2)
+            pygame.draw.rect(sc, RED, (*screen_pos, self.rect.width, self.rect.height), 2)
+            draw_text(sc, f'x={self.rect.centerx}, y={self.rect.centery}', screen_pos + Position(0, -20))
