@@ -12,13 +12,13 @@ class CameraABC(ABC):
     @abstractmethod
     def get_camera_pos(self) -> Tuple[float, float]: ...
 
-    def get_screen_pos(self, object_pos: Rect | Tuple[int, int]) -> Position:
+    def get_screen_pos(self, object_pos: Rect | Tuple[int, int] | Position) -> Position:
         camera_pos = self.get_camera_pos()
 
         camera_x = camera_pos[0] - HALF_SCREEN_WIDTH
         camera_y = camera_pos[1] - HALF_SCREEN_HEIGHT
 
-        if isinstance(object_pos, Rect):
+        if isinstance(object_pos, Rect) or isinstance(object_pos, Position):
             obj_x = object_pos.x
             obj_y = object_pos.y
         elif isinstance(object_pos, tuple):

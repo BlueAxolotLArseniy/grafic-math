@@ -48,7 +48,8 @@ class Player(CameraABC):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
             if left:
-                bullet = Bullet(self.angle, self.rect.center, BulletAffiliation.player, 1, self.game_state)
+                bullet = Bullet(self.angle, Position.from_tuple(self.rect.center),
+                                BulletAffiliation.player, 1, self.game_state)
                 self.__bullets.append(bullet)
 
         for bullet in self.__bullets.collide_with(self.rect, BulletAffiliation.enemy):
