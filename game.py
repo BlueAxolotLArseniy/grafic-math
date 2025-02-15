@@ -1,11 +1,14 @@
 # from camera import Camera
 from bullets import Bullets
 from cave import Cave
+from common import draw_text
 import player
 import consts
 import pygame
 from pygame.event import Event
 from typing import TYPE_CHECKING, List
+
+from position import Position
 
 if TYPE_CHECKING:
     from state import GameState
@@ -68,15 +71,6 @@ class Game:
                 print(f'Debug --> Player time(ticks): {self.player.time}')
                 print(f'Debug --> Number of bullets: {self.bullets.count()}')
 
-            self.text_fps = self.font.render(f'FPS {consts.FPS}', False, consts.WHITE)
-            self.text_fps_rect = self.text_fps.get_rect(topleft=(20, 20))
-
-            self.text_hp = self.font.render(f'HP {self.player.health}', False, consts.WHITE)
-            self.text_hp_rect = self.text_hp.get_rect(bottomleft=(20, consts.SCREEN_HEIGHT-30-20))
-
-            # self.text_coords = self.font.render(f'COORDS X Y {int(self.camera.centerx)} {int(self.camera.centery)}', False, consts.WHITE)
-            # self.text_coords_rect = self.text_coords.get_rect(topleft=(20, 50))
-
     # def __respawn(self):
     #     if self.game_state.player_state == PlayerState.respawn:
     #         self.game_state.unpause()
@@ -108,9 +102,10 @@ class Game:
             self.game_state.active_screen.draw(self.sc)
 
         if self.game_state.debug_mode:
-            self.sc.blit(self.text_fps, self.text_fps_rect)
-            self.sc.blit(self.text_hp, self.text_hp_rect)
-            # self.sc.blit(self.text_coords, self.text_coords_rect)
+
+            draw_text(self.sc, f'FPS {consts.FPS}', Position(20, 20), consts.WHITE, self.font)
+            draw_text(self.sc, f'HP {self.player.health}',
+                      Position(20, consts.SCREEN_HEIGHT-70), consts.WHITE, self.font)
 
     def run(self):
         clock = pygame.time.Clock()
