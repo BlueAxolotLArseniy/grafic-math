@@ -5,7 +5,7 @@ from ui.button import Button
 from ui.screen import ScreenABC
 
 if TYPE_CHECKING:
-    from state import GameState
+    from game_state import GameState
 
 
 class DeathScreen(ScreenABC):

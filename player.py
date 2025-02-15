@@ -8,31 +8,37 @@ from camera_abc import CameraABC
 from common import draw_text, get_angle_to_mouse, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 import consts
+from player_state import PlayerState
 from position import Position
-from state import GameState
+from game_state import GameState
 import ui.death_screen as ds
 
 
 class Player(CameraABC):
-    def __init__(self, x, y, game_state: GameState, bullets: Bullets):
+    def __init__(self, pos: Position, game_state: GameState, bullets: Bullets):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey(BLACK)
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image
 
-        self.rect = self.image.get_rect(center=(x, y))
-        self.original_rect = self.rect.copy()
+        self.rect = self.image.get_rect(center=pos)
 
-        self.time = 0
+        self.start_pos = pos
 
         self.__bullets = bullets
 
-        self.health = BASE_PLAYER_HEALTH
+        self.start_health = BASE_PLAYER_HEALTH
 
         self.game_state = game_state
 
-        self.kx = 0
-        self.ky = 0
+        self.respawn()
+
+    def respawn(self):
+        self.x_change = 0
+        self.y_change = 0
+        self.time = 0
+        self.health = self.start_health
+        self.rect.center = self.start_pos
 
     def _rotate(self):
         x, y = self.get_screen_pos(self.rect)
@@ -62,28 +68,28 @@ class Player(CameraABC):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_s]:
-            self.ky = consts.MOVE_PLAYER_SPEED
+            self.y_change = consts.MOVE_PLAYER_SPEED
         elif keys[pygame.K_w]:
-            self.ky = -consts.MOVE_PLAYER_SPEED
+            self.y_change = -consts.MOVE_PLAYER_SPEED
         else:
             # Если клавиша не нажата, замедляем движение
-            self.ky *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
+            self.y_change *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
 
         if keys[pygame.K_d]:
-            self.kx = -consts.MOVE_PLAYER_SPEED
+            self.x_change = -consts.MOVE_PLAYER_SPEED
         elif keys[pygame.K_a]:
-            self.kx = consts.MOVE_PLAYER_SPEED
+            self.x_change = consts.MOVE_PLAYER_SPEED
         else:
-            self.kx *= 0.9  # Замедление по оси X
+            self.x_change *= 0.9  # Замедление по оси X
 
         # Останавливаем игрока, если скорость становится очень маленькой
-        if abs(self.kx) < 0.1:
-            self.kx = 0
-        if abs(self.ky) < 0.1:
-            self.ky = 0
+        if abs(self.x_change) < 0.1:
+            self.x_change = 0
+        if abs(self.y_change) < 0.1:
+            self.y_change = 0
 
-        self.rect.centerx -= int(self.kx)
-        self.rect.centery += int(self.ky)
+        self.rect.centerx -= int(self.x_change)
+        self.rect.centery += int(self.y_change)
 
     def draw_hp(self, sc):
         # todo: move hp to a separate class.

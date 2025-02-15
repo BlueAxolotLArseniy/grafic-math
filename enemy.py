@@ -10,38 +10,45 @@ from consts import BLACK, DUMMY_ENEMIES, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_
 from bullet import Bullet
 from player import Player
 from position import Position
-from state import GameState
+from game_state import GameState
 
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: float, y: float, player: Player, setting_type: EnemyType, game_state: GameState, bullets: Bullets):
+    def __init__(self, pos: Position, player: Player, setting_type: EnemyType, game_state: GameState, bullets: Bullets):
 
         self.game_state = game_state
+
+        self.start_pos = pos
 
         if setting_type == EnemyType.single_cannon:
             self.rate_of_fire = 10
             self.speed = MOVE_ENEMY_WITH_ONE_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
-            self.health = BASE_ENEMY_HEALTH * 1.5
+            self.start_health = BASE_ENEMY_HEALTH * 1.5
 
         if setting_type == EnemyType.double_cannon:
             self.rate_of_fire = 14
             self.speed = MOVE_ENEMY_WITH_TWO_BARREL_SPEED
             self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
-            self.health = BASE_ENEMY_HEALTH
+            self.start_health = BASE_ENEMY_HEALTH
 
         self.image.set_colorkey(BLACK)
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
         self.original_image = self.image
 
-        self.rect = self.image.get_rect(center=(x, y))
+        self.rect = self.image.get_rect(center=pos)
 
         self.player = player
         self.__bullets = bullets
 
-        self.__angle = 0
+        self.respawn()
+
+    def respawn(self):
         self.time = 0
+        self.__angle = 0
+        self.health = self.start_health
+        self.rect.center = self.start_pos
 
     def _rotate(self):
         self.__angle = get_angle_to_player(
@@ -50,7 +57,6 @@ class Enemy(pygame.sprite.Sprite):
             self.player.rect.centerx,
             self.player.rect.centery
         )
-
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.__angle)
 
     def update(self):

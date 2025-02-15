@@ -2,24 +2,26 @@
 from bullets import Bullets
 from cave import Cave
 from common import draw_text
-import player
 import consts
 import pygame
 from pygame.event import Event
 from typing import TYPE_CHECKING, List
 
+from enemy import Enemy
+from player import Player
+from player_state import PlayerState
 from position import Position
 
 if TYPE_CHECKING:
-    from state import GameState
+    from game_state import GameState
 
 
 class Game:
     def __init__(
         self,
         sc,
-        player: player.Player,
-        enemies: list,
+        player: Player,
+        enemies: List[Enemy],
         caves: List[Cave],
         game_state: 'GameState',
         bullets: Bullets
@@ -51,7 +53,7 @@ class Game:
         events: List[Event] = pygame.event.get()
 
         self.__events(events)
-        # self.__respawn()
+        self.__respawn()
 
         self.bullets.update()
 
@@ -71,18 +73,13 @@ class Game:
                 print(f'Debug --> Player time(ticks): {self.player.time}')
                 print(f'Debug --> Number of bullets: {self.bullets.count()}')
 
-    # def __respawn(self):
-    #     if self.game_state.player_state == PlayerState.respawn:
-    #         self.game_state.unpause()
-
-    #         print('RESPAWN')
-
-    #         self.player.health = 100
-
-    #         self.camera.kx = self.camera.centerx - self.center_rect.centerx
-    #         self.camera.ky = self.camera.centery - self.center_rect.centery
-
-    #         self.game_state.player_state = PlayerState.active
+    def __respawn(self):
+        if self.game_state.player_state == PlayerState.respawn:
+            self.game_state.player_state = PlayerState.active
+            self.game_state.unpause()
+            self.player.respawn()
+            for enemy in self.enemies:
+                enemy.respawn()
 
     def draw(self):
         self.sc.fill((0, 0, 0))

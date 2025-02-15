@@ -3,7 +3,7 @@ import pygame
 from camera_abc import CameraABC
 from common import draw_text
 from consts import BLACK, WHITE
-from state import GameState
+from game_state import GameState
 
 
 class Cave(pygame.sprite.Sprite):

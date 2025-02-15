@@ -5,19 +5,19 @@ from player import Player
 from consts import SCREEN_HEIGHT, SCREEN_WIDTH
 from enemy import Enemy
 from cave import Cave
-from state import GameState
+from position import Position
+from game_state import GameState
 from game import Game
 
 pygame.init()
+sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 game_state = GameState()
-
 bullets = Bullets()
-sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-player = Player(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state, bullets)
-enemy = Enemy(0, 0, player, EnemyType.single_cannon, game_state, bullets)
-enemy2 = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, player, EnemyType.double_cannon, game_state, bullets)
-cave = Cave(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, game_state)
+player = Player(Position(0, 0), game_state, bullets)
+enemy = Enemy(Position(-400, -275), player, EnemyType.single_cannon, game_state, bullets)
+enemy2 = Enemy(Position(400, 275), player, EnemyType.double_cannon, game_state, bullets)
+cave = Cave(0, 0, game_state)
 
 game = Game(
     sc=sc,

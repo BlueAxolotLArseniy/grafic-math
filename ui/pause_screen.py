@@ -4,7 +4,7 @@ from ui.screen import ScreenABC
 from ui.settings_screen import SettingsScreen
 
 if TYPE_CHECKING:
-    from state import GameState
+    from game_state import GameState
 
 
 class PauseScreen(ScreenABC):

@@ -6,7 +6,7 @@ from camera_abc import CameraABC
 from common import draw_text, rotate_image
 from consts import BLACK, BULLET_SPEED, GREEN
 from position import Position
-from state import GameState
+from game_state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
