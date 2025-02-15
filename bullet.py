@@ -28,11 +28,13 @@ class Bullet(pygame.sprite.Sprite):
 
         self.game_state = game_state
 
+        self.distance = 0
+
     def update(self):
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.angle)
-
         self.rect.centerx += self.delta_x
         self.rect.centery += self.delta_y
+        self.distance += BULLET_SPEED
 
     def draw(self, sc: pygame.Surface, camera: CameraABC):
         screen_pos = camera.get_screen_pos(self.rect)
