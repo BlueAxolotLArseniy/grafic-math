@@ -3,6 +3,7 @@ import pygame
 
 from bullet import Bullet
 from bullet_affiliation import BulletAffiliation
+from bullets import Bullets
 from camera_abc import CameraABC
 from common import draw_text, get_angle_to_mouse, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
@@ -13,7 +14,7 @@ import ui.death_screen as ds
 
 
 class Player(CameraABC):
-    def __init__(self, x, y, game_state: GameState):
+    def __init__(self, x, y, game_state: GameState, bullets: Bullets):
         self.image = pygame.image.load('images/game_textures/ship.png').convert()
         self.image.set_colorkey(BLACK)
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
@@ -24,7 +25,7 @@ class Player(CameraABC):
 
         self.time = 0
 
-        self.bullets: list[Bullet] = []
+        self.__bullets = bullets
 
         self.health = BASE_PLAYER_HEALTH
 
@@ -48,22 +49,10 @@ class Player(CameraABC):
         if self.time % 4 == 0:
             if left:
                 bullet = Bullet(self.angle, self.rect.center, BulletAffiliation.player, 1, self.game_state)
-                self.bullets.append(bullet)
+                self.__bullets.append(bullet)
 
-        for b in range(len(self.bullets)-1):
-            if self.bullets[b].rect.centerx > SCREEN_WIDTH + self.bullets[b].rect.width or self.bullets[b].rect.centerx < 0 - self.bullets[b].rect.width:
-                self.bullets.pop(b)
-                break
-            if self.bullets[b].rect.centery > SCREEN_HEIGHT + self.bullets[b].rect.height or self.bullets[b].rect.centery < 0 - self.bullets[b].rect.height:
-                self.bullets.pop(b)
-                break
-
-        for bullet in self.bullets:
-            bullet.update()
-
-        for b in self.bullets:
-            if self.rect.colliderect(b.rect) and b.affiliation == BulletAffiliation.enemy:
-                self.health -= 1 * b.koefficient
+        for bullet in self.__bullets.collide_with(self.rect, BulletAffiliation.enemy):
+            self.health -= 1 * bullet.koefficient
 
         if self.health <= 0:
             self.game_state.active_screen = ds.DeathScreen(self.game_state)
@@ -108,8 +97,6 @@ class Player(CameraABC):
             pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
 
     def draw(self, sc: pygame.Surface):
-        for bullet in self.bullets:
-            bullet.draw(sc, self)
 
         screen_pos = self.get_screen_pos(self.rect)
         sc.blit(self.image, tuple(screen_pos))

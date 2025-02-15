@@ -3,8 +3,9 @@ import math
 
 from bullet_affiliation import BulletAffiliation
 from camera_abc import CameraABC
-from common import rotate_image
+from common import draw_text, rotate_image
 from consts import BLACK, BULLET_SPEED, GREEN
+from position import Position
 from state import GameState
 
 
@@ -34,7 +35,9 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.centery += self.delta_y
 
     def draw(self, sc: pygame.Surface, camera: CameraABC):
-        sc.blit(self.image, camera.get_screen_pos(self.rect))
+        screen_pos = camera.get_screen_pos(self.rect)
+        sc.blit(self.image, screen_pos)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, GREEN, (*camera.get_screen_pos(self.rect), self.rect.width, self.rect.height), 2)
+            pygame.draw.rect(sc, GREEN, (*screen_pos, self.rect.width, self.rect.height), 2)
+            draw_text(sc, f'x={self.rect.centerx}, y={self.rect.centery}', screen_pos + Position(0, -20))

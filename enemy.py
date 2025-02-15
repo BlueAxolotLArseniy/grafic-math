@@ -1,20 +1,21 @@
 import pygame
 import math
 from bullet_affiliation import BulletAffiliation
+from bullets import Bullets
 from camera_abc import CameraABC
 from enemy_type import EnemyType
-import player
 
 from common import draw_text, get_angle_to_player, rotate_image
 from consts import BLACK, DUMMY_ENEMIES, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_ENEMY_HEALTH, RED
 from bullet import Bullet
+from player import Player
 from position import Position
 from state import GameState
 
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, x: int | float, y: int | float, player: player.Player, setting_type: EnemyType, game_state: GameState):
+    def __init__(self, x: float, y: float, player: Player, setting_type: EnemyType, game_state: GameState, bullets: Bullets):
 
         self.game_state = game_state
 
@@ -37,6 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
 
         self.player = player
+        self.__bullets = bullets
 
         self.__angle = get_angle_to_player(self.rect.centerx, self.rect.centery,
                                            self.player.rect.centerx, self.player.rect.centery)
@@ -66,11 +68,10 @@ class Enemy(pygame.sprite.Sprite):
         if not DUMMY_ENEMIES:
             if self.time % self.rate_of_fire == 0:
                 bullet = Bullet(self.__angle, self.rect.center, BulletAffiliation.enemy, 1, self.game_state)
-                self.player.bullets.append(bullet)
+                self.__bullets.append(bullet)
 
-        for b in self.player.bullets:
-            if self.rect.colliderect(b.rect) and b.affiliation == BulletAffiliation.player:
-                self.health -= 1 * b.koefficient
+        for bullet in self.__bullets.collide_with(self.rect, BulletAffiliation.player):
+            self.health -= 1 * bullet.koefficient
 
     def draw(self, sc: pygame.Surface, camera: CameraABC):
         if self.health < 0:
