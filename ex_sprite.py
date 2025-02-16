@@ -31,18 +31,18 @@ class ExSprite(pygame.sprite.Sprite):
             self.__angle = value
             self.__rotated_image = pygame.transform.rotate(self.image, radians_to_degrees(-self.__angle))
 
-    def get_rotated_rect(self, position: Position):
+    def get_rotated_rect(self, position: Position) -> pygame.Rect:
         return self.__rotated_image.get_rect(center=position)
 
-    def draw(self, screen: pygame.Surface, position: Position, debug_info: bool):
+    def draw(self, sc: pygame.Surface, position: Position, debug_info: bool):
         rotated_rect = self.get_rotated_rect(position)
 
-        screen.blit(self.__rotated_image, rotated_rect.topleft)
+        sc.blit(self.__rotated_image, rotated_rect.topleft)
         if debug_info:
-            pygame.draw.circle(screen, (200, 0, 0), rotated_rect.topleft, 10, 1)
-            pygame.draw.circle(screen, (0, 220, 0), rotated_rect.center, 10, 1)
-            pygame.draw.rect(screen, (220, 220, 220), rotated_rect, 1)
-            pygame.draw.circle(screen, (100, 220, 150), (position.x, position.y), 6.0, 1)
+            pygame.draw.circle(sc, (200, 0, 0), rotated_rect.topleft, 10, 1)
+            pygame.draw.circle(sc, (0, 220, 0), rotated_rect.center, 10, 1)
+            pygame.draw.rect(sc, (220, 220, 220), rotated_rect, 1)
+            pygame.draw.circle(sc, (100, 220, 150), (position.x, position.y), 6.0, 1)
 
     def draw_background(self, screen: pygame.Surface, position: Position):
         size = 100

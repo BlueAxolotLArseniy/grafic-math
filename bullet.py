@@ -3,38 +3,36 @@ import math
 
 from bullet_affiliation import BulletAffiliation
 from camera_abc import CameraABC
-from common import draw_text, rotate_image
-from consts import BLACK, BULLET_SPEED, GREEN
+from common import draw_text
+from consts import BLACK, BULLET_SPEED
+from ex_sprite import ExSprite
 from position import Position
-from game_state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, koefficient: float, game_state: GameState):
+    def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, damage: float):
 
-        image = pygame.image.load('images/game/ship.png').convert()
-        image.set_colorkey(BLACK)
+        self.__sprite = ExSprite('images/game/ship.png', color_key=BLACK, angle=angle)
+        self.__pos = pos
 
-        self.image, self.rect = rotate_image(image, pos, angle)
-
-        self.pos = pos
         self.delta_pos = Position(BULLET_SPEED * math.cos(angle), BULLET_SPEED * math.sin(angle))
 
         self.affiliation = affiliation
-        self.koefficient = koefficient
-
-        self.game_state = game_state
+        self.damage = damage
 
         self.distance = 0
 
     def update(self):
-        self.pos += self.delta_pos
+        self.__pos += self.delta_pos
         self.distance += BULLET_SPEED
 
-    def draw(self, sc: pygame.Surface, camera: CameraABC):
-        screen_pos = camera.get_screen_pos(self.pos)
-        sc.blit(self.image, screen_pos)
+    def draw(self, sc: pygame.Surface, camera: CameraABC, is_debug: bool):
 
-        if self.game_state.debug_mode:
-            pygame.draw.rect(sc, GREEN, (*screen_pos, self.rect.width, self.rect.height), 2)
-            draw_text(sc, f'x={self.pos.x:.0f}, y={self.pos.y:.0f}', screen_pos + Position(0, -20))
+        screen_pos = camera.get_screen_pos(self.__pos)
+        self.__sprite.draw(sc, screen_pos, is_debug)
+
+        if is_debug:
+            draw_text(sc, f'{self.__pos}', screen_pos + Position(0, -20))
+
+    def get_rect(self) -> pygame.Rect:
+        return self.__sprite.get_rotated_rect(self.__pos)

@@ -1,22 +1,22 @@
 
 from typing import Generator, List
-
 from pygame import Rect, Surface
 from bullet import Bullet
 from bullet_affiliation import BulletAffiliation
-
 from camera_abc import CameraABC
 from consts import BULLET_MAX_DISTANCE
+from game_state import GameState
 
 
 class Bullets:
 
-    def __init__(self):
+    def __init__(self, game_state: GameState):
         self.__bullets: List[Bullet] = []
+        self.__game_state = game_state
 
     def draw(self, sc: Surface, camera: CameraABC):
         for bullet in self.__bullets:
-            bullet.draw(sc, camera)
+            bullet.draw(sc, camera, self.__game_state.debug_mode)
 
     def update(self):
 
@@ -27,7 +27,7 @@ class Bullets:
 
     def collide_with(self, rect: Rect, bullet_affiliation: BulletAffiliation) -> Generator[Bullet, None, None]:
         for bullet in self.__bullets:
-            if bullet.affiliation == bullet_affiliation and rect.colliderect(bullet.rect):
+            if bullet.affiliation == bullet_affiliation and rect.colliderect(bullet.get_rect()):
                 yield bullet
 
     def append(self, bullet: Bullet):

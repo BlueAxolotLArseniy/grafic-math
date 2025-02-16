@@ -58,11 +58,11 @@ class Enemy(pygame.sprite.Sprite):
 
         if not DUMMY_ENEMIES:
             if self.time % self.__enemy_settings.fire_rate == 0:
-                bullet = Bullet(self.__angle, self.position, BulletAffiliation.enemy, 1, self.game_state)
+                bullet = Bullet(self.__angle, self.position, BulletAffiliation.enemy, 1)
                 self.__bullets.append(bullet)
 
         for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.player):
-            self.health -= 1 * bullet.koefficient
+            self.health -= 1 * bullet.damage
 
     def draw(self, sc: pygame.Surface, camera: CameraABC):
         if self.health < 0:

@@ -54,13 +54,14 @@ class Game:
 
         self.__keyboard_events(events)
 
+        self.__respawn()
+
         if self.game_state.active_screen:
             self.game_state.active_screen.update(events)
 
         if self.game_state.is_paused:
             return
 
-        self.__respawn()
         self.bullets.update()
         self.player.update()
         for cave in self.caves:

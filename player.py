@@ -48,11 +48,11 @@ class Player(CameraABC):
         left, middle, right = pygame.mouse.get_pressed()
         if self.time % 4 == 0:
             if left or keys[pygame.K_SPACE]:
-                bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player, 1, self.game_state)
+                bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player, 1)
                 self.__bullets.append(bullet)
 
         for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.enemy):
-            self.health -= 1 * bullet.koefficient
+            self.health -= 1 * bullet.damage
 
         if self.health <= 0:
             self.game_state.active_screen = ds.DeathScreen(self.game_state)
