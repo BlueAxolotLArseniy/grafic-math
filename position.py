@@ -30,4 +30,4 @@ class Position(tuple):
         return NotImplemented
 
     def __repr__(self):
-        return f"Position(x={self.x}, y={self.y})"
+        return f"x={self.x:.0f}, y={self.y:.0f}"

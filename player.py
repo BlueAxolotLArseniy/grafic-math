@@ -5,9 +5,10 @@ from bullet import Bullet
 from bullet_affiliation import BulletAffiliation
 from bullets import Bullets
 from camera_abc import CameraABC
-from common import draw_text, get_angle_to_mouse, rotate_image
+from common import draw_text, get_angle_to_mouse, radians_to_degrees, rotate_image
 from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 import consts
+from ex_sprite import ExSprite
 from player_state import PlayerState
 from position import Position
 from game_state import GameState
@@ -16,19 +17,16 @@ import ui.death_screen as ds
 
 class Player(CameraABC):
     def __init__(self, pos: Position, game_state: GameState, bullets: Bullets):
-        self.image = pygame.image.load('images/game_textures/ship.png').convert()
-        self.image.set_colorkey(BLACK)
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
-        self.original_image = self.image
 
-        self.rect = self.image.get_rect(center=pos)
+        self.sprite = ExSprite('images/game_textures/ship.png', scale=5)
 
         self.start_pos = pos
 
-        self.__bullets = bullets
-
         self.start_health = BASE_PLAYER_HEALTH
 
+        self.__screen_pos = Position(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT)
+
+        self.__bullets = bullets
         self.game_state = game_state
 
         self.respawn()
@@ -38,29 +36,24 @@ class Player(CameraABC):
         self.y_change = 0
         self.time = 0
         self.health = self.start_health
-        self.rect.center = self.start_pos
-
-    def _rotate(self):
-        x, y = self.get_screen_pos(self.rect)
-        self.angle = get_angle_to_mouse(x, y)
-        self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.angle)
+        self.position = self.start_pos
 
     def update(self):
         self.time += 1
-        self._rotate()
+
+        self.sprite.angle = get_angle_to_mouse(self.__screen_pos.x, self.__screen_pos.y)
+
         self.__move_player()
 
         keys = pygame.key.get_pressed()
-        
+
         left, middle, right = pygame.mouse.get_pressed()
-        mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
             if left or keys[pygame.K_SPACE]:
-                bullet = Bullet(self.angle, Position.from_tuple(self.rect.center),
-                                BulletAffiliation.player, 1, self.game_state)
+                bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player, 1, self.game_state)
                 self.__bullets.append(bullet)
 
-        for bullet in self.__bullets.collide_with(self.rect, BulletAffiliation.enemy):
+        for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.enemy):
             self.health -= 1 * bullet.koefficient
 
         if self.health <= 0:
@@ -78,9 +71,9 @@ class Player(CameraABC):
             self.y_change *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
 
         if keys[pygame.K_d]:
-            self.x_change = -consts.MOVE_PLAYER_SPEED
-        elif keys[pygame.K_a]:
             self.x_change = consts.MOVE_PLAYER_SPEED
+        elif keys[pygame.K_a]:
+            self.x_change = -consts.MOVE_PLAYER_SPEED
         else:
             self.x_change *= 0.9  # Замедление по оси X
 
@@ -90,51 +83,53 @@ class Player(CameraABC):
         if abs(self.y_change) < 0.1:
             self.y_change = 0
 
-        self.rect.centerx -= int(self.x_change)
-        self.rect.centery += int(self.y_change)
+        self.position += Position(self.x_change, self.y_change)
 
     def draw_hp(self, sc):
-        # todo: move hp to a separate class.
-        pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-19-22, 202, 22), 1)
+        # todo: move hp to a separate class (in case you need hp for other objects like enemies.)
+        pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-41, 202, 22), 1)
         if self.health >= 75:
-            pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+            pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-40, self.health*2, 20))
         elif self.health >= 50:
-            pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+            pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-40, self.health*2, 20))
         elif self.health >= 25:
-            pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+            pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-40, self.health*2, 20))
         elif self.health >= 0:
-            pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-20-20, self.health*2, 20))
+            pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-40, self.health*2, 20))
 
     def draw(self, sc: pygame.Surface):
 
-        screen_pos = self.get_screen_pos(self.rect)
-        sc.blit(self.image, tuple(screen_pos))
+        self.sprite.draw(sc, self.__screen_pos, self.game_state.debug_mode)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, WHITE, (screen_pos.x, screen_pos.y, self.rect.width, self.rect.height), 2)
-            # tod, here will be move of the pos.
+            pygame.draw.rect(
+                surface=sc,
+                color=WHITE,
+                rect=self.sprite.get_rotated_rect(self.__screen_pos),
+                width=2
+            )
+            # todo here will be move of the pos.
             draw_text(
                 sc,
-                f'x={self.rect.centerx}, y={self.rect.centery}',
+                f'game: {self.position}',
                 Position(HALF_SCREEN_WIDTH - 40, HALF_SCREEN_HEIGHT + 60)
             )
 
             draw_text(
                 sc,
-                f'sc: x={screen_pos.x}, y={screen_pos.y}',
+                f'sc: x={self.__screen_pos.x}, y={self.__screen_pos.y}',
                 Position(HALF_SCREEN_WIDTH - 40, HALF_SCREEN_HEIGHT + 40)
             )
-            
+
             mouse_pos = pygame.mouse.get_pos()
-            
+
             draw_text(
                 sc,
                 f'sc: x={mouse_pos[0]}, y={mouse_pos[1]}',
                 Position(mouse_pos[0]+20, mouse_pos[1])
             )
-            
-            
+
         self.draw_hp(sc)
 
     def get_camera_pos(self) -> Tuple[float, float]:
-        return self.rect.centerx, self.rect.centery
+        return self.position

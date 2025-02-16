@@ -54,8 +54,8 @@ class Enemy(pygame.sprite.Sprite):
         self.__angle = get_angle_to_player(
             self.rect.centerx,
             self.rect.centery,
-            self.player.rect.centerx,
-            self.player.rect.centery
+            self.player.position.x,
+            self.player.position.y
         )
         self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.__angle)
 
