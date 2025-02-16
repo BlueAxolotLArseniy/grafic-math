@@ -34,7 +34,7 @@ class Game:
         self.game_state = game_state
         self.font = pygame.font.Font('fonts/Monocraft.otf', round(24))  # Use `round` for exact size
 
-    def __events(self, events: List[Event]):
+    def __keyboard_events(self, events: List[Event]):
 
         for event in events:
             if event.type == pygame.QUIT:
@@ -52,27 +52,27 @@ class Game:
 
         events: List[Event] = pygame.event.get()
 
-        self.__events(events)
-        self.__respawn()
-
-        if not self.game_state.is_paused:
-            self.bullets.update()
+        self.__keyboard_events(events)
 
         if self.game_state.active_screen:
             self.game_state.active_screen.update(events)
 
-        if not self.game_state.is_paused:
-            self.player.update()
-            for cave in self.caves:
-                cave.update()
+        if self.game_state.is_paused:
+            return
 
-            if consts.ENABLE_ENEMIES:
-                for enemy in self.enemies:
-                    enemy.update()
+        self.__respawn()
+        self.bullets.update()
+        self.player.update()
+        for cave in self.caves:
+            cave.update()
 
-            if self.game_state.debug_mode:
-                print(f'Debug --> Player time(ticks): {self.player.time}')
-                print(f'Debug --> Number of bullets: {self.bullets.count()}')
+        if consts.ENABLE_ENEMIES:
+            for enemy in self.enemies:
+                enemy.update()
+
+        if self.game_state.debug_mode:
+            print(f'Debug --> Player time(ticks): {self.player.time}')
+            print(f'Debug --> Number of bullets: {self.bullets.count()}')
 
     def __respawn(self):
         if self.game_state.player_state == PlayerState.respawn:
