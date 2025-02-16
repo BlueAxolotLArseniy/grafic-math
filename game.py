@@ -103,8 +103,7 @@ class Game:
         if self.game_state.debug_mode:
 
             draw_text(self.sc, f'FPS {consts.FPS}', Position(20, 20), consts.WHITE, self.font)
-            draw_text(self.sc, f'HP {self.player.health}',
-                      Position(20, consts.SCREEN_HEIGHT-70), consts.WHITE, self.font)
+            
 
     def run(self):
         clock = pygame.time.Clock()

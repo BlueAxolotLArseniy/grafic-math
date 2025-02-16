@@ -8,6 +8,7 @@ from common import draw_text, get_angle_to_player
 from consts import BLACK, DUMMY_ENEMIES
 from bullet import Bullet
 from ex_sprite import ExSprite
+from health_view import HealthView
 from player import Player
 from position import Position
 from game_state import GameState
@@ -25,6 +26,8 @@ class Enemy(pygame.sprite.Sprite):
         self.__enemy_settings = enemy_settings
 
         self.sprite = ExSprite(enemy_settings.image_path, scale=5, color_key=BLACK)
+
+        self.__health_view = HealthView(enemy_settings.health)
 
         self.respawn()
 
@@ -72,5 +75,6 @@ class Enemy(pygame.sprite.Sprite):
         self.sprite.draw(sc, screen_pos, self.game_state.debug_mode)
 
         if self.game_state.debug_mode:
-            # pygame.draw.rect(sc, RED, (*screen_pos, self.rect.width, self.rect.height), 2)
             draw_text(sc, f'game: {self.position}', screen_pos + Position(0, -20))
+
+        self.__health_view.draw(sc, self.health, screen_pos + Position(-25, 47))

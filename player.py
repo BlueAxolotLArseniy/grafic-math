@@ -8,6 +8,7 @@ from common import draw_text, get_angle_to_mouse
 from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 import consts
 from ex_sprite import ExSprite
+from health_view import HealthView
 from position import Position
 from game_state import GameState
 import ui.death_screen as ds
@@ -26,6 +27,8 @@ class Player(CameraABC):
 
         self.__bullets = bullets
         self.game_state = game_state
+
+        self.__health_view = HealthView(self.start_health, scale=4)
 
         self.respawn()
 
@@ -83,18 +86,6 @@ class Player(CameraABC):
 
         self.position += Position(self.x_change, self.y_change)
 
-    def draw_hp(self, sc):
-        # todo: move hp to a separate class (in case you need hp for other objects like enemies.)
-        pygame.draw.rect(sc, WHITE, (19, SCREEN_HEIGHT-41, 202, 22), 1)
-        if self.health >= 75:
-            pygame.draw.rect(sc, GREEN, (20, SCREEN_HEIGHT-40, self.health*2, 20))
-        elif self.health >= 50:
-            pygame.draw.rect(sc, YELLOW, (20, SCREEN_HEIGHT-40, self.health*2, 20))
-        elif self.health >= 25:
-            pygame.draw.rect(sc, ORANGE, (20, SCREEN_HEIGHT-40, self.health*2, 20))
-        elif self.health >= 0:
-            pygame.draw.rect(sc, RED, (20, SCREEN_HEIGHT-40, self.health*2, 20))
-
     def draw(self, sc: pygame.Surface):
 
         self.sprite.draw(sc, self.__screen_pos, self.game_state.debug_mode)
@@ -122,7 +113,7 @@ class Player(CameraABC):
                 Position(mouse_pos[0]+20, mouse_pos[1])
             )
 
-        self.draw_hp(sc)
+        self.__health_view.draw(sc, self.health, Position(20, SCREEN_HEIGHT-41), True)
 
     def get_camera_pos(self) -> Tuple[float, float]:
         return self.position
