@@ -1,15 +1,13 @@
 from typing import Tuple
 import pygame
-
 from bullet import Bullet
 from bullet_affiliation import BulletAffiliation
 from bullets import Bullets
 from camera_abc import CameraABC
-from common import draw_text, get_angle_to_mouse, radians_to_degrees, rotate_image
-from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
+from common import draw_text, get_angle_to_mouse
+from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
 import consts
 from ex_sprite import ExSprite
-from player_state import PlayerState
 from position import Position
 from game_state import GameState
 import ui.death_screen as ds
@@ -18,7 +16,7 @@ import ui.death_screen as ds
 class Player(CameraABC):
     def __init__(self, pos: Position, game_state: GameState, bullets: Bullets):
 
-        self.sprite = ExSprite('images/game_textures/ship.png', scale=5)
+        self.sprite = ExSprite('images/game/ship.png', scale=5, color_key=BLACK)
 
         self.start_pos = pos
 
@@ -102,12 +100,7 @@ class Player(CameraABC):
         self.sprite.draw(sc, self.__screen_pos, self.game_state.debug_mode)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(
-                surface=sc,
-                color=WHITE,
-                rect=self.sprite.get_rotated_rect(self.__screen_pos),
-                width=2
-            )
+
             # todo here will be move of the pos.
             draw_text(
                 sc,

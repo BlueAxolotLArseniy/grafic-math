@@ -3,11 +3,11 @@ import math
 from bullet_affiliation import BulletAffiliation
 from bullets import Bullets
 from camera_abc import CameraABC
-from enemy_type import EnemyType
-
-from common import draw_text, get_angle_to_player, rotate_image
-from consts import BLACK, DUMMY_ENEMIES, MOVE_ENEMY_WITH_ONE_BARREL_SPEED, MOVE_ENEMY_WITH_TWO_BARREL_SPEED, BASE_ENEMY_HEALTH, RED
+from enemy_settings import EnemySettings
+from common import draw_text, get_angle_to_player
+from consts import BLACK, DUMMY_ENEMIES
 from bullet import Bullet
+from ex_sprite import ExSprite
 from player import Player
 from position import Position
 from game_state import GameState
@@ -15,49 +15,33 @@ from game_state import GameState
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, pos: Position, player: Player, setting_type: EnemyType, game_state: GameState, bullets: Bullets):
+    def __init__(self, pos: Position, player: Player, enemy_settings: EnemySettings, game_state: GameState, bullets: Bullets):
 
         self.game_state = game_state
-
-        self.start_pos = pos
-
-        if setting_type == EnemyType.single_cannon:
-            self.rate_of_fire = 10
-            self.speed = MOVE_ENEMY_WITH_ONE_BARREL_SPEED
-            self.image = pygame.image.load('images/game_textures/enemy1barrels.png').convert()
-            self.start_health = BASE_ENEMY_HEALTH * 1.5
-
-        if setting_type == EnemyType.double_cannon:
-            self.rate_of_fire = 14
-            self.speed = MOVE_ENEMY_WITH_TWO_BARREL_SPEED
-            self.image = pygame.image.load('images/game_textures/enemy2barrels.png').convert()
-            self.start_health = BASE_ENEMY_HEALTH
-
-        self.image.set_colorkey(BLACK)
-        self.image = pygame.transform.scale(self.image, (self.image.get_width()*5, self.image.get_height()*5))
-        self.original_image = self.image
-
-        self.rect = self.image.get_rect(center=pos)
-
         self.player = player
         self.__bullets = bullets
+
+        self.start_pos = pos
+        self.__enemy_settings = enemy_settings
+
+        self.sprite = ExSprite(enemy_settings.image_path, scale=5, color_key=BLACK)
 
         self.respawn()
 
     def respawn(self):
         self.time = 0
         self.__angle = 0
-        self.health = self.start_health
-        self.rect.center = self.start_pos
+        self.health = self.__enemy_settings.health
+        self.position = self.start_pos
 
     def _rotate(self):
         self.__angle = get_angle_to_player(
-            self.rect.centerx,
-            self.rect.centery,
+            self.position.x,
+            self.position.y,
             self.player.position.x,
             self.player.position.y
         )
-        self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.__angle)
+        self.sprite.angle = self.__angle
 
     def update(self):
         if self.health < 0:
@@ -67,24 +51,26 @@ class Enemy(pygame.sprite.Sprite):
 
         self._rotate()
 
-        self.rect.centerx += int(self.speed * math.cos(self.__angle))
-        self.rect.centery += int(self.speed * math.sin(self.__angle))
+        self.position += Position(
+            self.__enemy_settings.speed * math.cos(self.__angle),
+            self.__enemy_settings.speed * math.sin(self.__angle)
+        )
 
         if not DUMMY_ENEMIES:
-            if self.time % self.rate_of_fire == 0:
-                bullet = Bullet(self.__angle, Position.from_tuple(self.rect.center),
-                                BulletAffiliation.enemy, 1, self.game_state)
+            if self.time % self.__enemy_settings.fire_rate == 0:
+                bullet = Bullet(self.__angle, self.position, BulletAffiliation.enemy, 1, self.game_state)
                 self.__bullets.append(bullet)
 
-        for bullet in self.__bullets.collide_with(self.rect, BulletAffiliation.player):
+        for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.player):
             self.health -= 1 * bullet.koefficient
 
     def draw(self, sc: pygame.Surface, camera: CameraABC):
         if self.health < 0:
             return
-        screen_pos = camera.get_screen_pos(self.rect)
-        sc.blit(self.image, screen_pos)
+
+        screen_pos = camera.get_screen_pos(self.position)
+        self.sprite.draw(sc, screen_pos, self.game_state.debug_mode)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, RED, (*screen_pos, self.rect.width, self.rect.height), 2)
-            draw_text(sc, f'x={self.rect.centerx}, y={self.rect.centery}', screen_pos + Position(0, -20))
+            # pygame.draw.rect(sc, RED, (*screen_pos, self.rect.width, self.rect.height), 2)
+            draw_text(sc, f'game: {self.position}', screen_pos + Position(0, -20))

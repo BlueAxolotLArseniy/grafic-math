@@ -12,7 +12,7 @@ from game_state import GameState
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, koefficient: float, game_state: GameState):
 
-        image = pygame.image.load('images/game_textures/ship.png').convert()
+        image = pygame.image.load('images/game/ship.png').convert()
         image.set_colorkey(BLACK)
 
         self.image, self.rect = rotate_image(image, pos, angle)

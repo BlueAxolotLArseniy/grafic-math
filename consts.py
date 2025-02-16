@@ -1,3 +1,6 @@
+from enemy_settings import EnemySettings
+
+
 DEBUG_MODE = True
 
 SCREEN_WIDTH = 960  # 1920 // 2
@@ -21,11 +24,22 @@ FPS = 60
 MOVE_PLAYER_SPEED = 8
 BULLET_SPEED = 15
 BULLET_MAX_DISTANCE = 1000
-MOVE_ENEMY_WITH_ONE_BARREL_SPEED = 5
-MOVE_ENEMY_WITH_TWO_BARREL_SPEED = 3
 
 BASE_PLAYER_HEALTH = 100
-BASE_ENEMY_HEALTH = 100
 
 ENABLE_ENEMIES = True
 DUMMY_ENEMIES = False
+
+ENEMY1_SETTINGS = EnemySettings(
+    fire_rate=10,
+    speed=5,
+    image_path='images/game/enemy1barrels.png',
+    health=150
+)
+
+ENEMY2_SETTINGS = EnemySettings(
+    fire_rate=14,
+    speed=3,
+    image_path='images/game/enemy2barrels.png',
+    health=100
+)

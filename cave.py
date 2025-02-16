@@ -8,7 +8,7 @@ from game_state import GameState
 
 class Cave(pygame.sprite.Sprite):
     def __init__(self, x, y, game_state: GameState):
-        self.image = pygame.image.load('images/game_textures/cave.png').convert()
+        self.image = pygame.image.load('images/game/cave.png').convert()
         self.image.set_colorkey(BLACK)
         self.original_image = self.image
         self.image = pygame.transform.scale(self.image, (self.image.get_width()*15, self.image.get_height()*15))

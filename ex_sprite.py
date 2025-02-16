@@ -1,3 +1,4 @@
+from typing import Tuple
 import pygame
 from common import radians_to_degrees
 from consts import BACKGROUND_COLOR
@@ -7,11 +8,16 @@ from position import Position
 
 class ExSprite(pygame.sprite.Sprite):
 
-    def __init__(self, image_path: str, angle: float = 0, scale: float = 1.0):
+    def __init__(self, image_path: str, angle: float = 0, scale: float = 1.0, color_key: Tuple[int, int, int] | None = None):
         super().__init__()
-        # Load an image
-        image = ImageLoader.get_image(image_path)
+
+        image = ImageLoader.get_image(image_path).convert()
+
+        if color_key:
+            image.set_colorkey(color_key)
+
         self.image = pygame.transform.scale(image, (image.get_width()*scale, image.get_height()*scale))
+
         self.__angle = 0
         self.angle = angle
 
@@ -35,7 +41,7 @@ class ExSprite(pygame.sprite.Sprite):
         if debug_info:
             pygame.draw.circle(screen, (200, 0, 0), rotated_rect.topleft, 10, 1)
             pygame.draw.circle(screen, (0, 220, 0), rotated_rect.center, 10, 1)
-            pygame.draw.rect(screen, (0, 0, 220), rotated_rect, 1)
+            pygame.draw.rect(screen, (220, 220, 220), rotated_rect, 1)
             pygame.draw.circle(screen, (100, 220, 150), (position.x, position.y), 6.0, 1)
 
     def draw_background(self, screen: pygame.Surface, position: Position):

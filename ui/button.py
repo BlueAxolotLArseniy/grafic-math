@@ -8,7 +8,7 @@ from consts import BLACK, WHITE
 class Button:
     def __init__(self, size: float, text: str, action):
         # Load and scale the button image
-        self.image = pygame.image.load('images/settings_textures/button.png').convert()
+        self.image = pygame.image.load('images/settings/button.png').convert()
         self.image = pygame.transform.scale(self.image, (int(300 * size), int(70 * size)))
         self.image.set_colorkey(BLACK)  # Set transparency
 
