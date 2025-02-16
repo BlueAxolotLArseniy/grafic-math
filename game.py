@@ -55,7 +55,8 @@ class Game:
         self.__events(events)
         self.__respawn()
 
-        self.bullets.update()
+        if not self.game_state.is_paused:
+            self.bullets.update()
 
         if self.game_state.active_screen:
             self.game_state.active_screen.update(events)
