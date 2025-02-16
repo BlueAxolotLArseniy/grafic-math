@@ -50,10 +50,12 @@ class Player(CameraABC):
         self._rotate()
         self.__move_player()
 
+        keys = pygame.key.get_pressed()
+        
         left, middle, right = pygame.mouse.get_pressed()
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.time % 4 == 0:
-            if left:
+            if left or keys[pygame.K_SPACE]:
                 bullet = Bullet(self.angle, Position.from_tuple(self.rect.center),
                                 BulletAffiliation.player, 1, self.game_state)
                 self.__bullets.append(bullet)
@@ -117,6 +119,21 @@ class Player(CameraABC):
                 Position(HALF_SCREEN_WIDTH - 40, HALF_SCREEN_HEIGHT + 60)
             )
 
+            draw_text(
+                sc,
+                f'sc: x={screen_pos.x}, y={screen_pos.y}',
+                Position(HALF_SCREEN_WIDTH - 40, HALF_SCREEN_HEIGHT + 40)
+            )
+            
+            mouse_pos = pygame.mouse.get_pos()
+            
+            draw_text(
+                sc,
+                f'sc: x={mouse_pos[0]}, y={mouse_pos[1]}',
+                Position(mouse_pos[0]+20, mouse_pos[1])
+            )
+            
+            
         self.draw_hp(sc)
 
     def get_camera_pos(self) -> Tuple[float, float]:
