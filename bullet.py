@@ -2,41 +2,39 @@ import pygame
 import math
 
 from bullet_affiliation import BulletAffiliation
-from common import rotate_image
+from camera_abc import CameraABC
+from common import draw_text, rotate_image
 from consts import BLACK, BULLET_SPEED, GREEN
-from state import GameState
+from position import Position
+from game_state import GameState
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, center: tuple, affiliation: BulletAffiliation, koefficient: float, game_state: GameState):
-        self.angle = angle
+    def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, koefficient: float, game_state: GameState):
 
-        self.image = pygame.image.load('images/game_textures/ship.png').convert()
-        self.image.set_colorkey(BLACK)
-        self.image = pygame.transform.scale(self.image, (self.image.get_width(), self.image.get_height()))
-        self.original_image = self.image
+        image = pygame.image.load('images/game_textures/ship.png').convert()
+        image.set_colorkey(BLACK)
 
-        self.rect = self.image.get_rect(center=center)
+        self.image, self.rect = rotate_image(image, pos, angle)
 
-        self.delta_x = int(BULLET_SPEED * math.cos(angle))
-        self.delta_y = int(BULLET_SPEED * math.sin(angle))
+        self.pos = pos
+        self.delta_pos = Position(BULLET_SPEED * math.cos(angle), BULLET_SPEED * math.sin(angle))
 
         self.affiliation = affiliation
         self.koefficient = koefficient
 
         self.game_state = game_state
 
-    def update(self, kx, ky):
-        self.image, self.rect = rotate_image(self.original_image, self.rect.center, self.angle)
+        self.distance = 0
 
-        self.rect.centerx += self.delta_x
-        self.rect.centery += self.delta_y
+    def update(self):
+        self.pos += self.delta_pos
+        self.distance += BULLET_SPEED
 
-        self.rect.x += kx
-        self.rect.y += ky
-
-    def draw(self, sc: pygame.Surface):
-        sc.blit(self.image, self.rect)
+    def draw(self, sc: pygame.Surface, camera: CameraABC):
+        screen_pos = camera.get_screen_pos(self.pos)
+        sc.blit(self.image, screen_pos)
 
         if self.game_state.debug_mode:
-            pygame.draw.rect(sc, GREEN, self.rect, 2)
+            pygame.draw.rect(sc, GREEN, (*screen_pos, self.rect.width, self.rect.height), 2)
+            draw_text(sc, f'x={self.pos.x:.0f}, y={self.pos.y:.0f}', screen_pos + Position(0, -20))
