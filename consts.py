@@ -1,3 +1,4 @@
+from pygame import Rect
 from enemy_settings import EnemySettings
 
 
@@ -9,6 +10,9 @@ SCREEN_HEIGHT = 540  # 1080 // 2
 HALF_SCREEN_WIDTH = SCREEN_WIDTH // 2
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
 
+GAME_FIELD_RECT = Rect(-1500, -1500, 3000, 3000)
+
+STARS_COUNT = 500
 
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
@@ -19,7 +23,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BACKGROUND_COLOR = BLACK
 
-FPS = 60
+FPS = 120
 
 MOVE_PLAYER_SPEED = 8
 BULLET_SPEED = 15

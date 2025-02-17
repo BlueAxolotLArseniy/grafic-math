@@ -11,6 +11,7 @@ from enemy import Enemy
 from player import Player
 from player_state import PlayerState
 from position import Position
+from stars import Stars
 
 if TYPE_CHECKING:
     from game_state import GameState
@@ -24,13 +25,15 @@ class Game:
         enemies: List[Enemy],
         caves: List[Cave],
         game_state: 'GameState',
-        bullets: Bullets
+        bullets: Bullets,
+        stars: Stars
     ):
         self.sc = sc
         self.player = player
         self.enemies = enemies
         self.caves = caves
         self.bullets = bullets
+        self.__stars = stars
         self.game_state = game_state
         self.font = pygame.font.Font('fonts/Monocraft.otf', round(24))  # Use `round` for exact size
 
@@ -86,6 +89,8 @@ class Game:
     def draw(self):
         self.sc.fill((0, 0, 0))
 
+        self.__stars.draw(self.sc, self.player)
+
         self.player.draw(self.sc)
 
         self.bullets.draw(self.sc, self.player)
@@ -103,7 +108,6 @@ class Game:
         if self.game_state.debug_mode:
 
             draw_text(self.sc, f'FPS {consts.FPS}', Position(20, 20), consts.WHITE, self.font)
-            
 
     def run(self):
         clock = pygame.time.Clock()
