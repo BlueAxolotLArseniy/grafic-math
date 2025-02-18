@@ -51,7 +51,8 @@ class Player(CameraABC):
         left, middle, right = pygame.mouse.get_pressed()
         if self.time % 4 == 0:
             if left or keys[pygame.K_SPACE]:
-                bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player, 1)
+                bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player,
+                                1, delta_speed=Position(self.x_change, self.y_change))
                 self.__bullets.append(bullet)
 
         for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.enemy):

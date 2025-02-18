@@ -10,12 +10,12 @@ from position import Position
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, damage: float):
+    def __init__(self, angle: float, pos: Position, affiliation: BulletAffiliation, damage: float, delta_speed: Position):
 
         self.__sprite = ExSprite('images/game/ship.png', color_key=BLACK, angle=angle)
         self.__pos = pos
 
-        self.delta_pos = Position(BULLET_SPEED * math.cos(angle), BULLET_SPEED * math.sin(angle))
+        self.delta_pos = Position(BULLET_SPEED * math.cos(angle), BULLET_SPEED * math.sin(angle)) + delta_speed
 
         self.affiliation = affiliation
         self.damage = damage
