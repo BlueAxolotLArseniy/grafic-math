@@ -16,7 +16,7 @@ class Star:
         radius = random()*Star.MAX_RADIUS
         return Star(
             pos=Position.random(GAME_FIELD_RECT) * (Star.MAX_RADIUS - radius + 1),
-            color=Color.random(200, 255, 100, 255, 100, 255),
+            color=Color.all_random(),
             radius=radius
         )
 

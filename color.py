@@ -13,3 +13,7 @@ class Color(tuple):
             randint(g_min, g_max),
             randint(b_min, b_max)
         )
+        
+    @classmethod
+    def all_random(cls):
+        return cls.random(0, 255, 0, 255, 0, 255)
