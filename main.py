@@ -10,6 +10,7 @@ from game import Game
 from stars import Stars
 
 pygame.init()
+
 sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 game_state = GameState()
@@ -19,7 +20,7 @@ bullets = Bullets(game_state)
 player = Player(Position(0, 0), game_state, bullets)
 enemy = Enemy(Position(-400, -275), player, ENEMY1_SETTINGS, game_state, bullets)
 enemy2 = Enemy(Position(400, 275), player, ENEMY2_SETTINGS, game_state, bullets)
-cave = Cave(0, 0, game_state)
+cave = Cave(0, 0, game_state, player)
 
 game = Game(
     sc=sc,

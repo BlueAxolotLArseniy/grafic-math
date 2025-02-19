@@ -86,7 +86,7 @@ class Game:
             for enemy in self.enemies:
                 enemy.respawn()
 
-    def draw(self):
+    def draw(self, clock: pygame.time.Clock):
         self.sc.fill((0, 0, 0))
 
         self.__stars.draw(self.sc, self.player)
@@ -107,12 +107,12 @@ class Game:
 
         if self.game_state.debug_mode:
 
-            draw_text(self.sc, f'FPS {consts.FPS}', Position(20, 20), consts.WHITE, self.font)
+            draw_text(self.sc, f'FPS {int(clock.get_fps())}', Position(20, 20), consts.WHITE, self.font)
 
     def run(self):
         clock = pygame.time.Clock()
         while 1:
             self.update()
-            self.draw()
+            self.draw(clock)
             clock.tick(consts.FPS)
             pygame.display.update()

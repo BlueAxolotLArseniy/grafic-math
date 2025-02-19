@@ -16,4 +16,4 @@ class Color(tuple):
 
     @classmethod
     def all_random(cls):
-        return cls.random(0, 255, 0, 255, 0, 255)
+        return cls.random(200, 255, 100, 255, 100, 255)
