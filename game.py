@@ -7,6 +7,7 @@ import pygame
 from pygame.event import Event
 from typing import TYPE_CHECKING, List
 
+from enemies_spawner import EnemiesSpawner
 from enemy import Enemy
 from player import Player
 from player_state import PlayerState
@@ -26,7 +27,8 @@ class Game:
         caves: List[Cave],
         game_state: 'GameState',
         bullets: Bullets,
-        stars: Stars
+        stars: Stars,
+        enemies_spawner: EnemiesSpawner
     ):
         self.sc = sc
         self.player = player
@@ -35,6 +37,7 @@ class Game:
         self.bullets = bullets
         self.__stars = stars
         self.game_state = game_state
+        self.enemies_spawner = enemies_spawner
         self.font = pygame.font.Font('fonts/Monocraft.otf', round(24))  # Use `round` for exact size
 
     def __keyboard_events(self, events: List[Event]):
@@ -58,13 +61,13 @@ class Game:
         self.__keyboard_events(events)
 
         self.__respawn()
-
         if self.game_state.active_screen:
             self.game_state.active_screen.update(events)
 
         if self.game_state.is_paused:
             return
 
+        self.enemies_spawner.update()
         self.bullets.update()
         self.player.update()
         for cave in self.caves:
