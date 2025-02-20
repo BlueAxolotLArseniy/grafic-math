@@ -35,3 +35,6 @@ class Bullets:
 
     def count(self) -> int:
         return len(self.__bullets)
+
+    def remove(self, bullet: Bullet):
+        self.__bullets.remove(bullet)

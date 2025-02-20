@@ -26,10 +26,11 @@ BACKGROUND_COLOR = BLACK
 FPS = 60
 
 MOVE_PLAYER_SPEED = 8
-BULLET_SPEED = 30
-BULLET_MAX_DISTANCE = 1500
-
 BASE_PLAYER_HEALTH = 100
+PLAYER_BULLET_DAMAGE = 5
+PLAYER_BULLET_SPEED = 30
+
+BULLET_MAX_DISTANCE = 1500
 
 ENABLE_ENEMIES = True
 DUMMY_ENEMIES = False
@@ -38,12 +39,16 @@ ENEMY1_SETTINGS = EnemySettings(
     fire_rate=10,
     speed=5,
     image_path='images/game/enemy1barrels.png',
-    health=150
+    health=150,
+    bullet_damage=2.5,
+    bullet_speed=20
 )
 
 ENEMY2_SETTINGS = EnemySettings(
-    fire_rate=14,
+    fire_rate=20,
     speed=3,
     image_path='images/game/enemy2barrels.png',
-    health=100
+    health=100,
+    bullet_damage=5,
+    bullet_speed=15
 )

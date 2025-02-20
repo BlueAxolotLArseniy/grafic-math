@@ -5,8 +5,7 @@ from bullet_affiliation import BulletAffiliation
 from bullets import Bullets
 from camera_abc import CameraABC
 from common import draw_text, get_angle_to_mouse
-from consts import BASE_PLAYER_HEALTH, GREEN, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, WHITE, ORANGE, YELLOW, RED
-import consts
+from consts import BASE_PLAYER_HEALTH, HALF_SCREEN_HEIGHT, HALF_SCREEN_WIDTH, MOVE_PLAYER_SPEED, PLAYER_BULLET_DAMAGE, PLAYER_BULLET_SPEED, SCREEN_HEIGHT, BLACK
 from ex_sprite import ExSprite
 from health_view import HealthView
 from position import Position
@@ -52,11 +51,13 @@ class Player(CameraABC):
         if self.time % 4 == 0:
             if left or keys[pygame.K_SPACE]:
                 bullet = Bullet(self.sprite.angle, self.position, BulletAffiliation.player,
-                                1, delta_speed=Position(self.x_change, self.y_change))
+                                PLAYER_BULLET_DAMAGE, PLAYER_BULLET_SPEED,
+                                delta_speed=Position(self.x_change, self.y_change))
                 self.__bullets.append(bullet)
 
         for bullet in self.__bullets.collide_with(self.sprite.get_rotated_rect(self.position), BulletAffiliation.enemy):
             self.health -= 1 * bullet.damage
+            self.__bullets.remove(bullet)
 
         if self.health <= 0:
             self.game_state.active_screen = ds.DeathScreen(self.game_state)
@@ -65,17 +66,17 @@ class Player(CameraABC):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_s]:
-            self.y_change = consts.MOVE_PLAYER_SPEED
+            self.y_change = MOVE_PLAYER_SPEED
         elif keys[pygame.K_w]:
-            self.y_change = -consts.MOVE_PLAYER_SPEED
+            self.y_change = -MOVE_PLAYER_SPEED
         else:
             # Если клавиша не нажата, замедляем движение
             self.y_change *= 0.9  # Коэффициент замедления (чем меньше, тем плавнее остановка)
 
         if keys[pygame.K_d]:
-            self.x_change = consts.MOVE_PLAYER_SPEED
+            self.x_change = MOVE_PLAYER_SPEED
         elif keys[pygame.K_a]:
-            self.x_change = -consts.MOVE_PLAYER_SPEED
+            self.x_change = -MOVE_PLAYER_SPEED
         else:
             self.x_change *= 0.9  # Замедление по оси X
 

@@ -8,3 +8,5 @@ class EnemySettings:
     speed: int
     image_path: str
     health: int
+    bullet_damage: float
+    bullet_speed: float
