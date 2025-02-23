@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player = player
         self.__bullets = bullets
 
-        self.start_pos = pos
+        self.position = pos
         self.__enemy_settings = enemy_settings
 
         self.sprite = ExSprite(enemy_settings.image_path, scale=5, color_key=BLACK)
@@ -35,7 +35,7 @@ class Enemy(pygame.sprite.Sprite):
         self.time = 0
         self.__angle = 0
         self.health = self.__enemy_settings.health
-        self.position = self.start_pos
+        # self.position = self.start_pos
 
     def _rotate(self):
         self.__angle = get_angle_to_player(

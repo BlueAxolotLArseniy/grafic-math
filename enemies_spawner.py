@@ -6,7 +6,7 @@ from typing import List
 import pygame
 
 from bullets import Bullets
-from consts import ENEMY1_SETTINGS, ENEMY2_SETTINGS
+from consts import ENEMY1_SETTINGS, ENEMY2_SETTINGS, MAX_QUANTITY_ENEMIES
 from enemy import Enemy
 from game_state import GameState
 from player import Player
@@ -30,7 +30,9 @@ class EnemiesSpawner:
             return
 
         enemy = self.__get_random_enemy()
-        self.__enemies.append(enemy)
+        
+        if len(self.__enemies) < MAX_QUANTITY_ENEMIES:
+            self.__enemies.append(enemy)
 
         self.__next_spawn_ticks = ticks + 60 * 50
 
@@ -38,6 +40,10 @@ class EnemiesSpawner:
         random_num = random.randint(1, 2)
 
         if random_num == 1:
-            return Enemy(Position(-400, -275), self.__player, ENEMY1_SETTINGS, self.__game_state, self.__bullets)
+            return Enemy(Position(random.randint(int(self.__player.position.x-500), int(self.__player.position.x+500)),
+                                  random.randint(int(self.__player.position.y-500), int(self.__player.position.y+500))), 
+                         self.__player, ENEMY1_SETTINGS, self.__game_state, self.__bullets)
         else:
-            return Enemy(Position(400, 275), self.__player, ENEMY2_SETTINGS, self.__game_state, self.__bullets)
+            return Enemy(Position(random.randint(int(self.__player.position.x-500), int(self.__player.position.x+500)),
+                                  random.randint(int(self.__player.position.y-500), int(self.__player.position.y+500))), 
+                         self.__player, ENEMY2_SETTINGS, self.__game_state, self.__bullets)
