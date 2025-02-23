@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, List
 
 from enemies_spawner import EnemiesSpawner
 from enemy import Enemy
+from enemy_state import EnemyState
 from player import Player
 from player_state import PlayerState
 from position import Position
@@ -66,6 +67,10 @@ class Game:
 
         if self.game_state.is_paused:
             return
+        
+        for enemy in self.enemies:
+            if enemy.state == EnemyState.dead:
+                self.enemies.remove(enemy)
 
         self.enemies_spawner.update()
         self.bullets.update()
