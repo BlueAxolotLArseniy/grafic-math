@@ -10,10 +10,10 @@ from star import Star
 class Stars:
 
     @classmethod
-    def random(cls, count) -> 'Stars':
+    def random(cls, count, rect) -> 'Stars':
         stars = Stars()
         for _ in range(count):
-            stars.append(Star.random())
+            stars.append(Star.random(rect))
         return stars
 
     def __init__(self):

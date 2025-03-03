@@ -3,7 +3,7 @@ import pygame
 from bullets import Bullets
 from enemies_spawner import EnemiesSpawner
 from player import Player
-from consts import ENEMY1_SETTINGS, ENEMY2_SETTINGS, SCREEN_HEIGHT, SCREEN_WIDTH, STARS_COUNT
+from consts import ENEMY1_SETTINGS, ENEMY2_SETTINGS, GAME_FIELD_RECT, SCREEN_HEIGHT, SCREEN_WIDTH, STARS_COUNT
 from enemy import Enemy
 from cave import Cave
 from position import Position
@@ -17,7 +17,7 @@ sc = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 
 game_state = GameState()
 
-stars = Stars.random(STARS_COUNT)
+stars = Stars.random(STARS_COUNT, GAME_FIELD_RECT)
 bullets = Bullets(game_state)
 player = Player(Position(0, 0), game_state, bullets)
 cave = Cave(0, 0, game_state, player)

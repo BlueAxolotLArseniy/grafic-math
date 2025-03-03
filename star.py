@@ -12,10 +12,10 @@ class Star:
     MAX_RADIUS = 4
 
     @classmethod
-    def random(cls) -> 'Star':
+    def random(cls, rect) -> 'Star':
         radius = random()*Star.MAX_RADIUS
         return Star(
-            pos=Position.random(GAME_FIELD_RECT) * (Star.MAX_RADIUS - radius + 1),
+            pos=Position.random(rect) * (Star.MAX_RADIUS - radius + 1),
             color=Color.random(200, 255, 100, 255, 100, 255),
             radius=radius
         )
